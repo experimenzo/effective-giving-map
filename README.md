@@ -15,7 +15,7 @@ Modelled on [aisafety.com/map](https://aisafety.com/map). Built as a single stat
 Research & evaluators · National giving portals (sub-divided by region) · Public platforms & pledges · Donor advisory · Grantmakers & pooled funds · Community & talent.
 
 ## Sources & caveats
-Organisation list and attributes are based on Giving What We Can's public "effective giving
-ecosystem" database plus per-organisation website research. Summaries reflect a reading of
+Organisation list and attributes are based on Giving What We Can's public ["effective giving
+ecosystem" database](https://givingwhatwecan.notion.site/fb3752a779ac4e779015db6a8a2e0cc4?v=d93c0365c3e14753877ff0da08a11a69) plus per-organisation website research. Summaries reflect a reading of
 public information and may contain errors. A few organisations are flagged where they appear
 to sit outside effective giving proper. Figures are indicative, not audited.
