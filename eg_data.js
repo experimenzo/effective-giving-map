@@ -40,7 +40,7 @@ const ORGS=[
  {n:"Effectief Geven",u:"https://www.effectiefgeven.be/",t:["National fundraising"],usd:"<$1M",mkt:"Belgium",c:["Humans","Animals","Climate"],y:2023,fte:"1-5"},
  {n:"Effective Altruism Australia",u:"https://effectivealtruism.org.au/",t:["National fundraising"],usd:"$1M—$10M",mkt:"Australia",c:["Humans","Climate"],y:2015,fte:"6-10"},
  {n:"Effective Altruism Funds",u:"https://funds.effectivealtruism.org/",t:["Pooled fund"],usd:"$10M—$50M",mkt:"US/UK (global)",c:["Humans","Animals","X-risk"],y:2017,fte:"1-5"},
- {n:"Effective Altruism New Zealand",u:"https://eanz.org.nz/",t:["National fundraising"],usd:"<$1M",mkt:"New Zealand",c:["Humans","Animals","X-risk","Climate"],y:2016,fte:"1-5"},
+ {n:"Effective Altruism New Zealand",u:"https://effectivealtruism.nz/",t:["National fundraising"],usd:"<$1M",mkt:"New Zealand",c:["Humans","Animals","X-risk","Climate"],y:2016,fte:"1-5"},
  {n:"Effective Giving Ireland",u:"https://effectivegiving.ie/",t:["National fundraising"],usd:"<$1M",mkt:"Ireland",c:["Humans","Animals","Climate"],y:2024,fte:"<1"},
  {n:"Effective Institutions Project",u:"https://effectiveinstitutionsproject.org/",t:["Philanthropy advisory"],usd:"$10M—$50M",mkt:"US/UK (global)",c:["Other(s)","AI risks","Democracy"],y:2021,fte:"1-5"},
  {n:"Effektiv Spenden",u:"https://effektiv-spenden.org/",t:["National fundraising","Philanthropy advisory"],usd:"$10M—$50M",mkt:"Germany, Switzerland, Austria",c:["Humans","Animals","X-risk","Climate"],y:2019,fte:"6-10"},
@@ -72,7 +72,7 @@ const ORGS=[
  {n:"Momentum",u:"https://www.givemomentum.com/",t:["Other"],usd:"N/A",mkt:"US",c:["Other(s)"],y:2018,fte:"11-20"},
  {n:"Navigation Fund",u:"https://www.navigation.org/",t:["Grantmaking foundation"],usd:"$10M—$50M",mkt:"Global",c:["Animals","X-risk","Climate","Other(s)"],y:2023,fte:"6-10"},
  {n:"One for the World",u:"https://www.1fortheworld.org/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"College/MBA students, US/UK",c:["Humans"],y:2014,fte:"1-5"},
- {n:"Pepper",u:"https://www.joinpepper.org/",t:["Broad fundraising"],usd:"<$1M",mkt:"United States",c:["Humans"],y:2023,fte:"<1"},
+ {n:"Pepper",u:"https://joinpepper.org/",t:["Broad fundraising"],usd:"<$1M",mkt:"United States",c:["Humans"],y:2023,fte:"<1"},
  {n:"Power for Democracies",u:"https://www.powerfordemocracies.org/",t:["Charity evaluator"],usd:"<$1M",mkt:"Global",c:["Democracy"],y:2024,fte:"6-10"},
  {n:"Raise",u:"https://www.joinraise.org/",t:["Niche fundraising"],usd:"<$1M",mkt:"Global (college students)",c:["Humans"],y:2018,fte:"<1"},
  {n:"Raising Impact",u:"https://www.raisingimpact.org/",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"India and Asia",c:["Humans"],y:2024,fte:"1-5"},
@@ -121,4 +121,16 @@ const SUBTERR={
  "Więcej Dobra":"Central & Eastern Europe","Anneta Targalt":"Central & Eastern Europe","Ziedo Efektīvi":"Central & Eastern Europe","Etkili Bağış":"Central & Eastern Europe",
  "Effective Altruism Australia":"Anglosphere","Effective Altruism New Zealand":"Anglosphere","RC Forward":"Anglosphere",
  "doebem":"Asia & Latin America","CharityBox":"Asia & Latin America","GiveWise":"Asia & Latin America","Impactful Giving":"Asia & Latin America","Maximum Impact":"Asia & Latin America","Efektif Berbagi":"Asia & Latin America"
+};
+
+/* Direct logo overrides for orgs where Google's favicon service returns its
+   generic fallback icon (byte-identical across unrelated domains) or nothing
+   at all, even though the org has a real icon/logo of its own. */
+const LOGO_OVERRIDE={
+ "Ge Effektivt":"https://geeffektivt.se/favicon.ico",
+ "Gi Effektivt":"https://gieffektivt.no/favicon.ico",
+ "Giv Effektivt":"https://giveffektivt.dk/favicon.ico",
+ "Lahjoittaminen":"https://lahjoittaminen.fi/content/images/2021/12/logo2-5.png",
+ "Raising Impact":"https://raisingimpact.org/og-image.jpg",
+ "Efektif Berbagi":"https://efektifberbagi.id/favicon.svg"
 };

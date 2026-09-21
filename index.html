@@ -252,7 +252,7 @@ function concaveHull(cx,cy,points,pad){const N=104,out=[];
 
 /* logo helpers */
 function domainOf(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}
-function faviconOf(u){const d=domainOf(u);return d?`https://www.google.com/s2/favicons?domain=${d}&sz=64`:'';}
+function faviconOf(u,name){if(name&&LOGO_OVERRIDE[name])return LOGO_OVERRIDE[name];const d=domainOf(u);return d?`https://www.google.com/s2/favicons?domain=${d}&sz=64`:'';}
 function monogram(name){const w=name.replace(/[«»"'.,()]/g,'').split(/\s+/).filter(Boolean);const s=(w.length>1?(w[0][0]+w[1][0]):name.slice(0,2));return s.toUpperCase();}
 
 /* ---- compute town positions ---- */
@@ -293,7 +293,7 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];if(!I.n)return;const mR=I.mR;
   else{const coast=hugPath(cx,cy,tp,mR*1.15,I.seed,I.amp),beach=hugPath(cx,cy,tp,mR*0.8,I.seed+0.5,I.amp*0.9),cid='clip'+(clipN++);
     land=`<clipPath id="${cid}"><path d="${coast}"/></clipPath><path class="coast" d="${coast}"/><rect class="land-tex" x="-600" y="-500" width="3400" height="2400" clip-path="url(#${cid})"/><path class="coast-inner" d="${beach}"/>`;}
   /* towns */
-  let towns='';I.members.forEach(o=>{const[x,y]=pos[o.n];const col=cssVal(CAUSE_COLORS[o.c[0]]||CAUSE_COLORS['Other(s)']);const fav=faviconOf(o.u);
+  let towns='';I.members.forEach(o=>{const[x,y]=pos[o.n];const col=cssVal(CAUSE_COLORS[o.c[0]]||CAUSE_COLORS['Other(s)']);const fav=faviconOf(o.u,o.n);
     const pin=fav
       ? `<circle class="pin" r="${mR.toFixed(1)}" fill="#fff" stroke="${col}" stroke-width="${(mR*0.2).toFixed(1)}"/><image href="${fav}" x="${(-mR*0.82).toFixed(1)}" y="${(-mR*0.82).toFixed(1)}" width="${(mR*1.64).toFixed(1)}" height="${(mR*1.64).toFixed(1)}"/>`
       : `<circle class="pin" r="${mR.toFixed(1)}" fill="${col}" stroke="#fff" stroke-width="2"/><text class="mono" text-anchor="middle" dy="${(mR*0.32).toFixed(1)}" fill="#fff" font-size="${Math.round(mR*0.82)}" font-family="Cormorant Garamond,serif" font-weight="600">${monogram(o.n)}</text>`;
@@ -326,7 +326,7 @@ function apply(){let vis=0;ORGS.forEach(o=>{const ok=matches(o);if(ok)vis++;if(t
 const searchResults=document.getElementById('searchResults'),searchInput=document.getElementById('search');
 function renderResults(q){if(!q){searchResults.classList.remove('open');searchResults.innerHTML='';return;}
   const ms=ORGS.filter(o=>o.n.toLowerCase().includes(q)).sort((a,b)=>a.n.localeCompare(b.n)).slice(0,12);
-  searchResults.innerHTML=ms.length?ms.map(o=>{const f=faviconOf(o.u);return `<div class="sr-item" data-name="${o.n.replace(/"/g,'&quot;')}">${f?`<img src="${f}" alt="">`:'<span style="width:20px;display:inline-block"></span>'}<div><div class="srn">${o.n}</div><div class="srg">${TC(o.grp)}</div></div></div>`;}).join(''):'<div class="sr-empty">No matching organisations</div>';
+  searchResults.innerHTML=ms.length?ms.map(o=>{const f=faviconOf(o.u,o.n);return `<div class="sr-item" data-name="${o.n.replace(/"/g,'&quot;')}">${f?`<img src="${f}" alt="">`:'<span style="width:20px;display:inline-block"></span>'}<div><div class="srn">${o.n}</div><div class="srg">${TC(o.grp)}</div></div></div>`;}).join(''):'<div class="sr-empty">No matching organisations</div>';
   searchResults.classList.add('open');}
 searchInput.oninput=e=>{state.search=e.target.value.toLowerCase().trim();renderResults(state.search);apply();};
 searchInput.onfocus=()=>{if(state.search)renderResults(state.search);};
@@ -337,7 +337,7 @@ document.getElementById('resetBtn').onclick=()=>{state.search='';state.grp='';st
 
 /* ---- drawer ---- */
 const drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');
-function openDrawer(o){document.getElementById('dKicker').textContent=TC(o.grp);const fav=faviconOf(o.u);
+function openDrawer(o){document.getElementById('dKicker').textContent=TC(o.grp);const fav=faviconOf(o.u,o.n);
   document.getElementById('dName').innerHTML=`${fav?`<img src="${fav}" alt="" style="width:30px;height:30px;border-radius:6px;vertical-align:-5px;margin-right:11px;background:#fff;padding:2px;box-shadow:0 1px 4px rgba(0,0,0,.2)">`:''}${o.n}`;
   const link=o.u?`<a class="d-link" href="${o.u}" target="_blank" rel="noopener">Visit website →</a>`:`<a class="d-link search" href="https://www.google.com/search?q=${encodeURIComponent(o.n+' effective giving')}" target="_blank" rel="noopener">Search the web →</a>`;
   document.getElementById('dBody').innerHTML=`${o.flag?`<div class="d-flag"><b>⚠ Flagged:</b> ${o.flag}</div>`:''}${o.blurb?`<p style="font-size:.98rem;line-height:1.55;margin-bottom:6px">${o.blurb}</p>`:''}${o.fn?`<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:6px">${o.fn}</div>`:''}<div class="d-field"><div class="lab">GWWC primary type(s)</div><div class="val">${o.t.join(' · ')}</div></div><div class="d-field"><div class="lab">USD directed annually</div><div class="val">${o.usd}</div></div><div class="d-field"><div class="lab">Primary market(s)</div><div class="val">${o.mkt}</div></div><div class="d-field"><div class="lab">Cause area(s)</div><div class="val d-causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div></div><div class="d-field"><div class="lab">Year started</div><div class="val">${o.y}</div></div><div class="d-field"><div class="lab">Estimated FTE</div><div class="val">${o.fte}</div></div>${link}`;
