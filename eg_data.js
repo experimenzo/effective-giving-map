@@ -46,7 +46,6 @@ const ORGS=[
  {n:"Effektiv Spenden",u:"https://effektiv-spenden.org/",t:["National fundraising","Philanthropy advisory"],usd:"$10M—$50M",mkt:"Germany, Switzerland, Austria",c:["Humans","Animals","X-risk","Climate"],y:2019,fte:"6-10"},
  {n:"Elevate Philanthropy",u:"https://www.elevatephilanthropy.org/",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"Global",c:["Multiple"],y:2026,fte:"1-5"},
  {n:"Ellis Impact",u:"https://www.ellisimpact.org/",t:["Philanthropy advisory"],usd:"<$1M",mkt:"US",c:["Humans","Animals","Climate"],y:2024,fte:"1-5"},
- {n:"Enough Project",u:"",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"Global",c:["Humans","Animals","X-risk","Climate"],y:2021,fte:"1-5"},
  {n:"Etkili Bağış",u:"https://etkilibagis.org/",t:["National fundraising"],usd:"<$1M",mkt:"Turkey",c:["Humans"],y:2025,fte:"1-5"},
  {n:"FarmKind",u:"https://farmkind.giving/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"US/UK (global)",c:["Animals"],y:2024,fte:"1-5"},
  {n:"Founders Pledge",u:"https://www.founderspledge.com/",t:["Philanthropy advisory","Charity evaluator"],usd:"$100M—$500M",mkt:"US/UK (global)",c:["Humans","Animals","X-risk","Climate"],y:2015,fte:"51-100"},
@@ -79,7 +78,7 @@ const ORGS=[
  {n:"Raise",u:"https://www.joinraise.org/",t:["Niche fundraising"],usd:"<$1M",mkt:"Global (college students)",c:["Humans"],y:2018,fte:"<1"},
  {n:"Raising Impact",u:"https://www.raisingimpact.org/",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"India and Asia",c:["Humans"],y:2024,fte:"1-5"},
  {n:"RC Forward",u:"https://rcforward.org/",t:["National fundraising"],usd:"$1M—$10M",mkt:"Canada",c:["Humans","Animals","Climate"],y:2018,fte:"1-5"},
- {n:"Regeneration Group",u:"",t:["Philanthropy advisory"],usd:"$10M—$50M",mkt:"Global",c:["Humans","Climate"],y:2018,fte:"6-10"},
+ {n:"Regeneration Group",u:"https://www.regenerationgroup.org/",t:["Philanthropy advisory"],usd:"$10M—$50M",mkt:"Global",c:["Humans","Climate"],y:2018,fte:"6-10"},
  {n:"Senterra Funders",u:"https://www.senterrafunders.org/",t:["Philanthropy advisory"],usd:"$1M—$10M",mkt:"Global",c:["Animals"],y:2022,fte:"1-5"},
  {n:"Sentinel Bio",u:"https://www.sentinelbio.org/",t:["Philanthropy advisory","Pooled fund"],usd:"$1M—$10M",mkt:"Global",c:["Pandemics"],y:2024,fte:"1-5"},
  {n:"Serica",u:"https://www.sericaadvisory.org/",t:["Philanthropy advisory"],usd:"<$1M",mkt:"Asia, Africa",c:["Humans"],y:2025,fte:"1-5"},
@@ -103,20 +102,20 @@ const ORGS=[
 ];
 
 /* ---- revised functional classification (6 groups) ---- */
-const GROUP_ORDER=["Research & evaluators","National giving portals","Public platforms & pledges","Donor advisory","Grantmakers & pooled funds","Community & talent"];
+const GROUP_ORDER=["Research & evaluators","National giving portals","Public platforms & pledges","Donor advisory","Grantmakers & pooled funds","Talent & careers","Communities & outreach"];
 const REGION_ORDER=["Nordics","Western Europe","Central & Eastern Europe","Anglosphere","Asia & Latin America"];
 const FLAGGED={
  "Momentum":"A nonprofit fundraising CRM/AI tool — not itself an effective-giving org.",
- "Enough Project":"A defunct anti-atrocity advocacy group — not part of the effective-giving ecosystem (likely a mislabel).",
  "Afterfund":"Nonprofit endowment/fundraising tech — supplies infrastructure, doesn't route donors to effective charities."
 };
 const GROUPS={
  "GiveWell":"Research & evaluators","Animal Charity Evaluators":"Research & evaluators","Giving Green":"Research & evaluators","Happier Lives Institute":"Research & evaluators","The Life You Can Save":"Research & evaluators","Better Futures Guide":"Research & evaluators","Centre for Exploratory Altruism Research":"Research & evaluators","Power for Democracies":"Research & evaluators","Project Resource Optimization":"Research & evaluators","Charity Navigator":"Research & evaluators",
  "Ge Effektivt":"National giving portals","Gi Effektivt":"National giving portals","Giv Effektivt":"National giving portals","Lahjoittaminen":"National giving portals","Ayuda Efectiva":"National giving portals","Benefficienza":"National giving portals","Doneer Effectief":"National giving portals","Effectief Geven":"National giving portals","Effektiv Spenden":"National giving portals","Mieux Donner":"National giving portals","Effective Giving Ireland":"National giving portals","Więcej Dobra":"National giving portals","Anneta Targalt":"National giving portals","Ziedo Efektīvi":"National giving portals","Etkili Bağış":"National giving portals","Effective Altruism Australia":"National giving portals","Effective Altruism New Zealand":"National giving portals","RC Forward":"National giving portals","doebem":"National giving portals","CharityBox":"National giving portals","GiveWise":"National giving portals","Impactful Giving":"National giving portals","Maximum Impact":"National giving portals","Efektif Berbagi":"National giving portals",
  "Giving What We Can":"Public platforms & pledges","One for the World":"Public platforms & pledges","Giving Multiplier":"Public platforms & pledges","Double Up Drive":"Public platforms & pledges","GoodWallet":"Public platforms & pledges","Pepper":"Public platforms & pledges","FarmKind":"Public platforms & pledges","Manifund":"Public platforms & pledges","Momentum":"Public platforms & pledges","Afterfund":"Public platforms & pledges",
- "Ark Philanthropy":"Donor advisory","Bedrock Philanthropy":"Donor advisory","Ellis Impact":"Donor advisory","Ultra Philanthropy":"Donor advisory","Serica":"Donor advisory","Longview Philanthropy":"Donor advisory","Founders Pledge":"Donor advisory","Raising Impact":"Donor advisory","Regeneration Group":"Donor advisory","Elevate Philanthropy":"Donor advisory","Effective Institutions Project":"Donor advisory","Senterra Funders":"Donor advisory","Enough Project":"Donor advisory",
+ "Ark Philanthropy":"Donor advisory","Bedrock Philanthropy":"Donor advisory","Ellis Impact":"Donor advisory","Ultra Philanthropy":"Donor advisory","Serica":"Donor advisory","Longview Philanthropy":"Donor advisory","Founders Pledge":"Donor advisory","Raising Impact":"Donor advisory","Regeneration Group":"Donor advisory","Elevate Philanthropy":"Donor advisory","Effective Institutions Project":"Donor advisory","Senterra Funders":"Donor advisory",
  "Coefficient Giving":"Grantmakers & pooled funds","Effective Altruism Funds":"Grantmakers & pooled funds","Survival and Flourishing Fund":"Grantmakers & pooled funds","Navigation Fund":"Grantmakers & pooled funds","Future of Life Institute":"Grantmakers & pooled funds","Macroscopic Ventures":"Grantmakers & pooled funds","AI Risk Mitigation Fund":"Grantmakers & pooled funds","Center on Long-Term Risk":"Grantmakers & pooled funds","Bloom Wellbeing Fund":"Grantmakers & pooled funds","Sentinel Bio":"Grantmakers & pooled funds","Astralis Foundation":"Grantmakers & pooled funds","AI Safety Tactical Opportunities Fund":"Grantmakers & pooled funds","Alpha Epsilon":"Grantmakers & pooled funds","Renaissance Philanthropy":"Grantmakers & pooled funds","Livelihood Impact Fund":"Grantmakers & pooled funds",
- "Ambitious Impact":"Community & talent","Animal Advocacy Careers":"Community & talent","High Impact Professionals":"Community & talent","Consultants for Impact":"Community & talent","EA for Christians":"Community & talent","Jewish Effective Giving Initiative":"Community & talent","Raise":"Community & talent","Charity Elections":"Community & talent","High-Impact Athletes":"Community & talent","Tien Procent Club":"Community & talent"
+ "Ambitious Impact":"Talent & careers","Animal Advocacy Careers":"Talent & careers","High Impact Professionals":"Talent & careers","Consultants for Impact":"Talent & careers",
+ "EA for Christians":"Communities & outreach","Jewish Effective Giving Initiative":"Communities & outreach","Raise":"Communities & outreach","Charity Elections":"Communities & outreach","High-Impact Athletes":"Communities & outreach","Tien Procent Club":"Communities & outreach"
 };
 const SUBTERR={
  "Ge Effektivt":"Nordics","Gi Effektivt":"Nordics","Giv Effektivt":"Nordics","Lahjoittaminen":"Nordics",

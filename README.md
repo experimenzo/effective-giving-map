@@ -1,6 +1,6 @@
 # The Effective Giving Islands
 
-An interactive map of the effective-giving landscape — 82 organisations that help direct
+An interactive map of the effective-giving landscape — 81 organisations that help direct
 money to high-impact charities, grouped by what they actually do with a donor's money.
 
 Modelled on [aisafety.com/map](https://aisafety.com/map). Built as a single static page

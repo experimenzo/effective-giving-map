@@ -133,7 +133,7 @@ body.filters-hidden .stage{top:74px}
 <body>
 <div class="topbar">
   <div class="brand"><div class="seal">EG</div>
-    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>82 organisations, mapped by what they do with a donor's money</p></div>
+    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>81 organisations, mapped by what they do with a donor's money</p></div>
     <span class="vtag">v1 · Islands</span>
   </div>
   <div class="controls">
@@ -189,8 +189,9 @@ const ISLE={
  "Public platforms & pledges":{cx:670,cy:275,aspect:1.06,rot:16,seed:3.1,amp:.72},
  "Donor advisory":{cx:1010,cy:320,aspect:0.98,rot:-18,seed:4.6,amp:.7},
  "National giving portals":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
- "Grantmakers & pooled funds":{cx:920,cy:660,aspect:1.04,rot:10,seed:5.7,amp:.72},
- "Community & talent":{cx:1230,cy:600,aspect:0.95,rot:18,seed:7.3,amp:.64}
+ "Grantmakers & pooled funds":{cx:900,cy:675,aspect:1.04,rot:10,seed:5.7,amp:.72},
+ "Talent & careers":{cx:1300,cy:440,aspect:0.96,rot:-10,seed:8.1,amp:.6},
+ "Communities & outreach":{cx:1240,cy:735,aspect:1.0,rot:15,seed:9.4,amp:.66}
 };
 /* uniform marker size + packing => identical org spacing on every island (matches Research & Evaluators) */
 GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length;
@@ -200,11 +201,11 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length
 /* National sub-territory clusters (local offsets, tightened into a rough map) */
 /* offsets arranged like a world map: Europe top-centre, Americas/Pacific left, Asia bottom-right */
 const NAT={
- "Nordics":{dx:-15,dy:-120},
- "Western Europe":{dx:-45,dy:-10},
- "Central & Eastern Europe":{dx:135,dy:-35},
- "Anglosphere":{dx:-175,dy:35},
- "Asia & Latin America":{dx:105,dy:115}
+ "Nordics":{dx:-30,dy:-170},
+ "Western Europe":{dx:-30,dy:-10},
+ "Central & Eastern Europe":{dx:130,dy:-40},
+ "Anglosphere":{dx:-182,dy:10},
+ "Asia & Latin America":{dx:50,dy:145}
 };
 
 /* ---- shape + packing helpers ---- */
