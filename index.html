@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Effective Giving Islands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F9FAFB;--cream:#F0F4F3;--white:#FFF;--charcoal:#1D1D1B;
+  --navy:#00594C;--navy-light:#007A68;--navy-deep:#013D34;
+  --gold:#E8840C;--gold-light:#F5A623;--gold-pale:#FFF4E6;
+  --sea:#DCE9E6;
+  --border:#D4DDD9;--border-light:#E8EEEC;--shadow:rgba(29,29,27,.08);--muted:#6B7772;
+  --c-humans:#00594C;--c-animals:#E8840C;--c-climate:#5B8C5A;--c-xrisk:#6D4C7D;
+  --c-ai:#3D6480;--c-pandemics:#B0553C;--c-nuclear:#8A6D3B;--c-democracy:#4A8C8C;--c-other:#9A958C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Source Serif 4',Georgia,serif;color:var(--charcoal);background:var(--sea);overflow:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif}
+.topbar{position:fixed;top:0;left:0;right:0;height:74px;z-index:40;display:flex;align-items:center;gap:22px;padding:0 26px;background:var(--navy);color:#fff;box-shadow:0 2px 20px rgba(1,61,52,.35)}
+.brand{display:flex;align-items:center;gap:14px}
+.seal{width:44px;height:44px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:#fff}
+.brand-txt h1{font-size:1.5rem;font-weight:600;line-height:1}
+.brand-txt p{font-size:.72rem;color:rgba(255,255,255,.62);font-style:italic;margin-top:3px}
+.vtag{font-family:'Cormorant Garamond',serif;font-size:.9rem;background:var(--gold);color:var(--navy-deep);padding:2px 12px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.controls{display:flex;align-items:center;gap:14px;margin-left:auto}
+.search-wrap{position:relative}
+.search-wrap input{font-family:inherit;font-size:.9rem;width:210px;padding:9px 14px 9px 34px;border:1px solid rgba(255,255,255,.25);border-radius:22px;background:rgba(255,255,255,.08);color:#fff;outline:none;transition:.2s}
+.search-wrap input::placeholder{color:rgba(255,255,255,.55)}
+.search-wrap input:focus{background:rgba(255,255,255,.16);border-color:var(--gold)}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.6}
+.ftbtn{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;padding:8px 16px;background:transparent;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.28);border-radius:22px;cursor:pointer;transition:.18s;white-space:nowrap}
+.ftbtn:hover{background:rgba(255,255,255,.12)}
+.ftbtn.on{background:var(--gold);color:var(--navy-deep);border-color:transparent}
+.view-toggle{display:flex;border:1px solid rgba(255,255,255,.28);border-radius:22px;overflow:hidden}
+.view-toggle button{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;padding:8px 18px;background:transparent;color:rgba(255,255,255,.75);border:none;cursor:pointer;transition:.18s}
+.view-toggle button.active{background:var(--gold);color:var(--navy-deep)}
+.filterbar{position:fixed;top:74px;left:0;right:0;z-index:30;background:var(--cream);border-bottom:1px solid var(--border);padding:11px 26px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+body.filters-hidden .filterbar{display:none}
+body.filters-hidden .stage{top:74px}
+.filter-group{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.filter-label{font-size:.68rem;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:600}
+.chip{font-family:inherit;font-size:.82rem;padding:4px 12px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--charcoal);display:inline-flex;align-items:center;gap:6px;transition:.15s;user-select:none}
+.chip:hover{border-color:var(--navy-light)}
+.chip .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.chip.active{color:#fff;border-color:transparent;font-weight:500}
+.sel-select{font-family:inherit;font-size:.82rem;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--charcoal);cursor:pointer}
+.reset-btn{font-family:inherit;font-size:.8rem;color:var(--gold);background:none;border:none;cursor:pointer;margin-left:auto;text-decoration:underline;text-underline-offset:3px}
+.count-pill{font-size:.78rem;color:var(--muted);font-style:italic}
+.stage{position:fixed;top:130px;left:0;right:0;bottom:0;overflow:hidden}
+#mapWrap{position:absolute;inset:0}
+#map{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+#map.dragging{cursor:grabbing}
+.coast{fill:var(--ivory);stroke:var(--gold);stroke-width:2.5;filter:drop-shadow(0 8px 18px rgba(1,61,52,.18))}
+.coast-inner{fill:none;stroke:var(--gold-light);stroke-width:1;stroke-dasharray:2 6;opacity:.5}
+.land-tex{filter:url(#land);opacity:.5;pointer-events:none}
+.region-outline{fill:var(--navy-light);fill-opacity:.05;stroke:var(--navy-light);stroke-width:1.2;stroke-dasharray:4 5;opacity:.6}
+.region-chip{fill:#fff;opacity:.9;stroke:var(--border-light);stroke-width:1}
+.region-label{font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;fill:var(--navy);text-anchor:middle;font-size:14px}
+.isle-pill{fill:var(--navy);opacity:.92}
+.isle-label{font-family:'Cormorant Garamond',serif;font-weight:600;fill:#fff;text-anchor:middle;letter-spacing:.5px}
+.isle-count{font-family:'Source Serif 4',serif;fill:var(--gold-light);text-anchor:middle;font-style:italic}
+.boat{opacity:.5;pointer-events:none}
+.capital{pointer-events:none}
+.town{cursor:pointer}
+.town circle.pin{transition:filter .15s}
+.town image{pointer-events:none;clip-path:circle(48%)}
+.town .mono{pointer-events:none;user-select:none}
+.town .flagbadge{pointer-events:none}
+.town:hover{filter:drop-shadow(0 3px 9px rgba(232,132,12,.6))}
+.town.hl circle.pin{stroke:var(--gold)!important}
+.town.dim{opacity:.09;pointer-events:none}
+.isle.dim .coast{opacity:.3}
+.isle.dim .isle-pill,.isle.dim .isle-label,.isle.dim .isle-count,.isle.dim .region-outline,.isle.dim .region-label{opacity:.28}
+.compass{position:absolute;top:16px;right:20px;z-index:12;width:80px;height:80px;opacity:.85;pointer-events:none}
+.map-tools{position:absolute;bottom:22px;right:22px;z-index:12;display:flex;flex-direction:column;gap:8px}
+.map-tools button{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--white);color:var(--navy);font-size:1.3rem;cursor:pointer;box-shadow:0 2px 10px var(--shadow);display:flex;align-items:center;justify-content:center;transition:.15s;font-family:'Cormorant Garamond',serif}
+.map-tools button:hover{background:var(--navy);color:#fff}
+.hint{position:absolute;bottom:24px;left:24px;z-index:12;font-size:.76rem;color:var(--muted);font-style:italic;background:rgba(255,255,255,.72);padding:6px 12px;border-radius:8px;border:1px solid var(--border-light)}
+.tooltip{position:fixed;z-index:70;pointer-events:none;max-width:290px;background:var(--navy);color:#fff;padding:11px 14px;border-radius:9px;box-shadow:0 6px 22px rgba(1,61,52,.4);opacity:0;transition:opacity .12s}
+.tooltip .tt-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.14rem;line-height:1.1}
+.tooltip .tt-fn{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold-light);margin-top:3px}
+.tooltip .tt-body{font-size:.82rem;line-height:1.42;color:rgba(255,255,255,.86);margin-top:7px}
+.tooltip .tt-flag{font-size:.78rem;line-height:1.4;color:#F5C77E;margin-top:7px;font-style:italic}
+#gridView{position:absolute;inset:0;overflow-y:auto;padding:26px 30px 60px;display:none;background:var(--ivory)}
+.grid-section{margin-bottom:34px}
+.grid-section h2{font-size:1.5rem;color:var(--navy);font-weight:600;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid var(--gold);display:inline-block}
+.grid-section h2 .n{font-size:.9rem;color:var(--muted);font-family:'Source Serif 4',serif;font-weight:400;margin-left:8px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:15px}
+.card{background:var(--white);border:1px solid var(--border-light);border-left:4px solid var(--navy-light);border-radius:10px;padding:16px 18px;cursor:pointer;transition:transform .14s,box-shadow .14s;box-shadow:0 2px 12px var(--shadow)}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,89,76,.18)}
+.card .nm{font-family:'Cormorant Garamond',serif;font-size:1.32rem;font-weight:600;line-height:1.1;margin-bottom:6px}
+.card .fn{font-size:.72rem;text-transform:uppercase;letter-spacing:.7px;color:var(--gold);margin-bottom:9px}
+.card .bd{font-size:.86rem;line-height:1.45;color:var(--muted);margin-bottom:10px}
+.card .row{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);margin-top:4px}
+.card .row b{color:var(--charcoal);font-weight:500}
+.card .causes{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cause-tag{font-size:.72rem;padding:2px 9px;border-radius:12px;color:#fff}
+.card.hidden{display:none}
+.drawer-scrim{position:fixed;inset:0;background:rgba(1,61,52,.34);z-index:60;opacity:0;pointer-events:none;transition:.25s}
+.drawer-scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;width:430px;max-width:92vw;height:100%;z-index:61;background:var(--ivory);box-shadow:-8px 0 40px rgba(1,61,52,.28);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+.drawer.open{transform:translateX(0)}
+.drawer-head{background:var(--navy);color:#fff;padding:30px 30px 26px;position:relative}
+.drawer-head .kicker{font-size:.7rem;text-transform:uppercase;letter-spacing:1.8px;color:var(--gold-light);margin-bottom:8px}
+.drawer-head h2{font-size:2rem;font-weight:600;line-height:1.05}
+.drawer-close{position:absolute;top:20px;right:22px;background:none;border:none;color:rgba(255,255,255,.75);font-size:1.7rem;cursor:pointer;line-height:1;transition:.15s}
+.drawer-close:hover{color:#fff;transform:rotate(90deg)}
+.drawer-body{padding:26px 30px 40px}
+.d-flag{background:var(--gold-pale);border:1px solid var(--gold);color:#8a5a12;font-size:.85rem;line-height:1.45;padding:10px 12px;border-radius:8px;margin-bottom:14px}
+.d-field{padding:13px 0;border-bottom:1px solid var(--border-light)}
+.d-field .lab{font-size:.68rem;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:600;margin-bottom:5px}
+.d-field .val{font-size:1.02rem}
+.d-causes{display:flex;flex-wrap:wrap;gap:7px;margin-top:3px}
+.d-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:11px 20px;background:var(--gold);color:var(--navy-deep);text-decoration:none;border-radius:24px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;transition:.18s}
+.d-link:hover{background:var(--gold-light);transform:translateY(-2px)}
+.d-link.search{background:var(--cream);color:var(--navy);border:1px solid var(--border)}
+.footer-note{position:fixed;bottom:0;left:0;right:0;z-index:11;text-align:center;font-size:.68rem;color:var(--muted);padding:5px;pointer-events:none;font-style:italic}
+::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;border:2px solid var(--cream)}::-webkit-scrollbar-thumb:hover{background:var(--navy-light)}
+@media(max-width:760px){.brand-txt p{display:none}.search-wrap input{width:110px}.drawer{width:100%}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><div class="seal">EG</div>
+    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>82 organisations, mapped by what they do with a donor's money</p></div>
+    <span class="vtag">v1 · Islands</span>
+  </div>
+  <div class="controls">
+    <div class="search-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="search" type="text" placeholder="Search…" autocomplete="off"></div>
+    <button id="filterToggle" class="ftbtn on">Filters ▾</button>
+    <div class="view-toggle"><button id="btnMap" class="active">Map</button><button id="btnGrid">Grid</button></div>
+  </div>
+</div>
+<div class="filterbar">
+  <div class="filter-group"><span class="filter-label">Cause</span><div id="causeChips"></div></div>
+  <div class="filter-group"><span class="filter-label">Group</span><select id="grpSelect" class="sel-select"><option value="">All groups</option></select></div>
+  <div class="filter-group"><span class="filter-label">Size</span><select id="sizeSelect" class="sel-select"><option value="">Any</option></select></div>
+  <span class="count-pill" id="countPill"></span><button class="reset-btn" id="resetBtn">Reset filters</button>
+</div>
+<div class="stage">
+  <div id="mapWrap">
+    <svg class="compass" viewBox="0 0 100 100"><circle cx="50" cy="50" r="34" fill="none" stroke="#00594C" stroke-width="1.2" opacity=".5"/><circle cx="50" cy="50" r="26" fill="none" stroke="#E8840C" stroke-width="1" opacity=".5"/><polygon points="50,12 55,50 50,44 45,50" fill="#B0553C"/><polygon points="50,88 45,50 50,56 55,50" fill="#00594C"/><text x="50" y="10" font-size="9" fill="#00594C" text-anchor="middle" font-family="Cormorant Garamond">N</text></svg>
+    <svg id="map" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet"><g id="pan"></g></svg>
+    <div class="hint">Drag to sail · scroll to zoom · hover for a summary · click for detail</div>
+    <div class="map-tools"><button id="zoomIn">+</button><button id="zoomOut">&minus;</button><button id="zoomFit" style="font-size:.85rem">Fit</button></div>
+  </div>
+  <div id="gridView"></div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"><div class="drawer-head"><button class="drawer-close" id="drawerClose">&times;</button><div class="kicker" id="dKicker"></div><h2 id="dName"></h2></div><div class="drawer-body" id="dBody"></div></aside>
+<div class="footer-note">The Effective Giving Islands · built in the Effective Wills visual system</div>
+<script src="eg_data.js"></script>
+<script src="eg_blurbs.js"></script>
+<script>
+if(window.BLURBS)ORGS.forEach(o=>{const b=BLURBS[o.n];if(b){o.blurb=b.blurb;o.fn=b.fn;}});
+ORGS.forEach(o=>{o.grp=GROUPS[o.n]||"Community & talent";o.sub=SUBTERR[o.n];o.flag=FLAGGED[o.n];});
+const state={search:"",causes:new Set(),grp:"",size:""};
+const cssVal=v=>getComputedStyle(document.documentElement).getPropertyValue(v.replace('var(','').replace(')','').trim())||'#999';
+const SIZE_RANK=n=>SIZE_ORDER.indexOf(n);
+const TC=s=>s.replace(/\b([a-z])/g,(m,c)=>c.toUpperCase()); /* Title Case for display labels (keeps data keys intact) */
+
+/* ---- filters UI ---- */
+const allCauses=["Humans","Animals","Climate","X-risk","AI risks","Pandemics","Nuclear","Democracy","Other(s)"];
+const causeChips=document.getElementById('causeChips');
+allCauses.forEach(c=>{const b=document.createElement('button');b.className='chip';b.innerHTML=`<span class="dot" style="background:${CAUSE_COLORS[c]}"></span>${c}`;
+  b.onclick=()=>{if(state.causes.has(c)){state.causes.delete(c);b.classList.remove('active');b.style.background='';}else{state.causes.add(c);b.classList.add('active');b.style.background=cssVal(CAUSE_COLORS[c]);}apply();};causeChips.appendChild(b);});
+const grpSel=document.getElementById('grpSelect');GROUP_ORDER.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=TC(g);grpSel.appendChild(o);});
+const sizeSel=document.getElementById('sizeSelect');SIZE_ORDER.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sizeSel.appendChild(o);});
+
+/* ---- group members ---- */
+const groups={};GROUP_ORDER.forEach(g=>groups[g]=[]);
+ORGS.forEach(o=>groups[o.grp].push(o));
+
+/* ---- island geometry ---- */
+const ISLE={
+ "Research & evaluators":{cx:320,cy:300,aspect:0.95,rot:0,seed:1.2,amp:.62},
+ "Public platforms & pledges":{cx:670,cy:275,aspect:1.4,rot:16,seed:3.1,amp:.74},
+ "Donor advisory":{cx:1010,cy:320,aspect:0.72,rot:-22,seed:4.6,amp:.7},
+ "National giving portals":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
+ "Grantmakers & pooled funds":{cx:920,cy:660,aspect:1.08,rot:10,seed:5.7,amp:.8},
+ "Community & talent":{cx:1230,cy:600,aspect:0.85,rot:22,seed:7.3,amp:.66}
+};
+GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length;
+  I.mR=Math.max(15,Math.min(30,33-I.n*0.62));
+  if(!I.sub){const pR=1.12*I.mR*Math.sqrt(I.n);I.rx=pR;I.ry=pR*I.aspect;}});
+ISLE["National giving portals"].mR=20;
+
+/* National sub-territory clusters (local offsets, tightened into a rough map) */
+/* offsets arranged like a world map: Europe top-centre, Americas/Pacific left, Asia bottom-right */
+const NAT={
+ "Nordics":{dx:-15,dy:-140},
+ "Western Europe":{dx:-55,dy:-15},
+ "Central & Eastern Europe":{dx:160,dy:-45},
+ "Anglosphere":{dx:-235,dy:40},
+ "Asia & Latin America":{dx:135,dy:135}
+};
+
+/* ---- shape + packing helpers ---- */
+function catmull(pts){let d=`M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} `;const N=pts.length;
+  for(let i=0;i<N;i++){const p0=pts[(i-1+N)%N],p1=pts[i],p2=pts[(i+1)%N],p3=pts[(i+2)%N];
+    const c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6,c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=`C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)} `;}return d+'Z';}
+function phyllo(cx,cy,rx,ry,rot,i,n){const a=i*2.399963267,u=Math.sqrt((i+0.6)/n);let x=Math.cos(a)*u*rx,y=Math.sin(a)*u*ry;const rr=rot*Math.PI/180;return[cx+x*Math.cos(rr)-y*Math.sin(rr),cy+x*Math.sin(rr)+y*Math.cos(rr)];}
+/* coastline that hugs a set of town points (support radius + organic lobes; always encloses) */
+function hugPath(cx,cy,points,pad,seed,amp){const N=56,pts=[];
+  for(let k=0;k<N;k++){const th=k/N*2*Math.PI,ct=Math.cos(th),st=Math.sin(th);let sup=0;
+    for(let j=0;j<points.length;j++){const d=(points[j][0]-cx)*ct+(points[j][1]-cy)*st;if(d>sup)sup=d;}
+    const lobe=amp*pad*(0.55*Math.sin(3*th+seed)+0.33*Math.cos(5*th+seed*1.7)+0.2*Math.sin(7*th+seed*0.6)+0.14*Math.sin(2*th+seed*2.2));
+    let add=pad+lobe;if(add<pad*0.58)add=pad*0.58;pts.push([cx+(sup+add)*ct,cy+(sup+add)*st]);}
+  return catmull(pts);}
+
+/* logo helpers */
+function domainOf(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}
+function faviconOf(u){const d=domainOf(u);return d?`https://www.google.com/s2/favicons?domain=${d}&sz=64`:'';}
+function monogram(name){const w=name.replace(/[«»"'.,()]/g,'').split(/\s+/).filter(Boolean);const s=(w.length>1?(w[0][0]+w[1][0]):name.slice(0,2));return s.toUpperCase();}
+
+/* ---- compute town positions ---- */
+const pos={};
+GROUP_ORDER.forEach(g=>{const I=ISLE[g];
+  if(!I.sub){I.members.forEach((o,i)=>{pos[o.n]=phyllo(I.cx,I.cy,I.rx,I.ry,I.rot,i,I.n);});}
+  else{ I.regions={};
+    REGION_ORDER.forEach(rg=>{const mem=I.members.filter(o=>o.sub===rg);const off=NAT[rg];const nc=mem.length;
+      const cpR=1.12*I.mR*Math.sqrt(Math.max(nc,1));const ccx=I.cx+off.dx,ccy=I.cy+off.dy;
+      mem.forEach((o,i)=>{pos[o.n]=phyllo(ccx,ccy,cpR,cpR,0,i,nc);});
+      I.regions[rg]={ccx,ccy,cpR,n:nc,mem};});}
+});
+
+/* ---- build SVG ---- */
+const pan=document.getElementById('pan');
+let sea=`<rect x="-600" y="-500" width="3400" height="2400" fill="url(#seaGrad)"/>`;
+let waves='';for(let y=40;y<1400;y+=56){waves+=`<path d="M -500 ${y} Q 200 ${y-10} 800 ${y} T 1800 ${y} T 3000 ${y}" fill="none" stroke="#B7D0CB" stroke-width="1" opacity=".38"/>`;}
+const boat='<path d="M-11 4 L11 4 L8 9 L-8 9 Z" fill="#7fa79d"/><path d="M0 4 L0 -11 L9 -2 Z" fill="#fff" opacity=".85"/><line x1="0" y1="4" x2="0" y2="-11" stroke="#5f8478" stroke-width="1"/>';
+const boats=`<g class="boat" transform="translate(1310,170) scale(1.15)">${boat}</g><g class="boat" transform="translate(130,520) scale(1)">${boat}</g><g class="boat" transform="translate(1300,780) scale(1.1)">${boat}</g>`;
+pan.insertAdjacentHTML('beforeend',`<defs><radialGradient id="seaGrad" cx="38%" cy="32%" r="95%"><stop offset="0%" stop-color="#E7F0ED"/><stop offset="100%" stop-color="#C7DCD7"/></radialGradient><filter id="land"><feTurbulence type="fractalNoise" baseFrequency="0.015 0.02" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.30  0 0 0 0 0.16  0 0 0 0.06 0"/></filter></defs>${sea}<g opacity=".85">${waves}</g>${boats}`);
+
+const townEls={};let clipN=0;
+GROUP_ORDER.forEach(g=>{const I=ISLE[g];if(!I.n)return;const mR=I.mR;
+  const tp=I.members.map(o=>pos[o.n]);
+  let sx=0,sy=0,minY=1e9;tp.forEach(p=>{sx+=p[0];sy+=p[1];if(p[1]<minY)minY=p[1];});const cx=sx/tp.length,cy=sy/tp.length;
+  const coast=hugPath(cx,cy,tp,mR*1.3,I.seed,I.amp);
+  const beach=hugPath(cx,cy,tp,mR*0.85,I.seed+0.5,I.amp*0.9);
+  const cid='clip'+(clipN++);
+  /* capital = largest org by size band */
+  let cap=null,cr=-1;I.members.forEach(o=>{const r=SIZE_RANK(o.usd);if(r>cr){cr=r;cap=o.n;}});
+  /* sub-territory outlines + labels (hug each cluster) */
+  let inner='',rlabels='';
+  if(I.sub){REGION_ORDER.forEach(rg=>{const R=I.regions[rg];if(!R.n)return;const rtp=R.mem.map(o=>pos[o.n]);
+    let rmy=1e9;rtp.forEach(p=>{if(p[1]<rmy)rmy=p[1];});
+    inner+=`<path class="region-outline" d="${hugPath(R.ccx,R.ccy,rtp,mR*0.8,rg.length,0.45)}"/>`;
+    const lw=rg.length*7+16,lyr=rmy-mR-9;
+    rlabels+=`<g class="region-tag"><rect class="region-chip" x="${(R.ccx-lw/2).toFixed(1)}" y="${(lyr-13).toFixed(1)}" width="${lw.toFixed(1)}" height="19" rx="9"/><text class="region-label" x="${R.ccx.toFixed(1)}" y="${lyr.toFixed(1)}">${rg}</text></g>`;});}
+  /* towns */
+  let towns='';I.members.forEach(o=>{const[x,y]=pos[o.n];const col=cssVal(CAUSE_COLORS[o.c[0]]||CAUSE_COLORS['Other(s)']);const fav=faviconOf(o.u);
+    const pin=fav
+      ? `<circle class="pin" r="${mR.toFixed(1)}" fill="#fff" stroke="${col}" stroke-width="${(mR*0.2).toFixed(1)}"/><image href="${fav}" x="${(-mR*0.82).toFixed(1)}" y="${(-mR*0.82).toFixed(1)}" width="${(mR*1.64).toFixed(1)}" height="${(mR*1.64).toFixed(1)}"/>`
+      : `<circle class="pin" r="${mR.toFixed(1)}" fill="${col}" stroke="#fff" stroke-width="2"/><text class="mono" text-anchor="middle" dy="${(mR*0.32).toFixed(1)}" fill="#fff" font-size="${Math.round(mR*0.82)}" font-family="Cormorant Garamond,serif" font-weight="600">${monogram(o.n)}</text>`;
+    const star=(o.n===cap)?`<path class="capital" d="M0 ${(-mR-11).toFixed(1)} l3.1 6.3 6.9 1 -5 4.9 1.2 6.9 -6.2 -3.3 -6.2 3.3 1.2 -6.9 -5 -4.9 6.9 -1 Z" fill="#E8840C" stroke="#fff" stroke-width=".6"/>`:'';
+    const flag=o.flag?`<g class="flagbadge" transform="translate(${(mR*0.62).toFixed(1)},${(-mR*0.62).toFixed(1)})"><circle r="6.5" fill="#B0553C" stroke="#fff" stroke-width="1.2"/><text text-anchor="middle" dy="3.3" font-size="9" fill="#fff" font-family="serif" font-weight="700">!</text></g>`:'';
+    towns+=`<g class="town" data-name="${o.n.replace(/"/g,'&quot;')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})">${star}${pin}${flag}</g>`;});
+  /* island label pill (above topmost town) */
+  const label=TC(g),cw=label.length*9.3+30,ly=minY-mR*1.3-(I.sub?48:30);
+  const pill=`<rect class="isle-pill" x="${(cx-cw/2).toFixed(1)}" y="${(ly-20).toFixed(1)}" width="${cw.toFixed(1)}" height="42" rx="21"/><text class="isle-label" x="${cx.toFixed(1)}" y="${(ly+2).toFixed(1)}" font-size="19">${label}</text><text class="isle-count" x="${cx.toFixed(1)}" y="${(ly+16).toFixed(1)}" font-size="11">${I.n} organisations</text>`;
+  pan.insertAdjacentHTML('beforeend',`<g class="isle" data-grp="${g}"><clipPath id="${cid}"><path d="${coast}"/></clipPath><path class="coast" d="${coast}"/><rect class="land-tex" x="-600" y="-500" width="3400" height="2400" clip-path="url(#${cid})"/><path class="coast-inner" d="${beach}"/>${inner}${towns}${rlabels}${pill}</g>`);
+});
+document.querySelectorAll('.town').forEach(el=>townEls[el.dataset.name]=el);
+
+/* ---- GRID ---- */
+const gridView=document.getElementById('gridView');const cardIndex={};
+GROUP_ORDER.forEach(g=>{if(!groups[g].length)return;const sec=document.createElement('div');sec.className='grid-section';sec.dataset.grp=g;
+  sec.innerHTML=`<h2>${TC(g)}<span class="n">${groups[g].length}</span></h2>`;const cg=document.createElement('div');cg.className='card-grid';
+  groups[g].forEach(o=>{const card=document.createElement('div');card.className='card';card.dataset.name=o.n;
+    card.innerHTML=`<div class="nm">${o.n}${o.flag?' <span style="color:#B0553C">⚠</span>':''}</div>${o.fn?`<div class="fn">${o.fn}</div>`:''}${o.blurb?`<div class="bd">${o.blurb}</div>`:''}<div class="row">${o.mkt} · est. ${o.y} · ${o.fte} FTE</div><div class="row"><b>${o.usd}</b> directed / yr</div><div class="causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div>`;
+    card.onclick=()=>openDrawer(o);cg.appendChild(card);cardIndex[o.n]=card;});
+  sec.appendChild(cg);gridView.appendChild(sec);});
+
+/* ---- filter ---- */
+const byName={};ORGS.forEach(o=>byName[o.n]=o);
+function matches(o){if(state.search&&!o.n.toLowerCase().includes(state.search))return false;if(state.grp&&o.grp!==state.grp)return false;if(state.size&&o.usd!==state.size)return false;if(state.causes.size&&![...state.causes].some(c=>o.c.includes(c)))return false;return true;}
+function apply(){let vis=0;ORGS.forEach(o=>{const ok=matches(o);if(ok)vis++;if(townEls[o.n])townEls[o.n].classList.toggle('dim',!ok);if(cardIndex[o.n])cardIndex[o.n].classList.toggle('hidden',!ok);});
+  document.querySelectorAll('.isle').forEach(is=>{const any=[...is.querySelectorAll('.town')].some(n=>!n.classList.contains('dim'));is.classList.toggle('dim',!any);});
+  document.querySelectorAll('.grid-section').forEach(sec=>{const any=[...sec.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));sec.style.display=any?'':'none';});
+  document.getElementById('countPill').textContent=`${vis} of ${ORGS.length} shown`;}
+document.getElementById('search').oninput=e=>{state.search=e.target.value.toLowerCase().trim();apply();};
+grpSel.onchange=e=>{state.grp=e.target.value;apply();};sizeSel.onchange=e=>{state.size=e.target.value;apply();};
+document.getElementById('resetBtn').onclick=()=>{state.search='';state.grp='';state.size='';state.causes.clear();document.getElementById('search').value='';grpSel.value='';sizeSel.value='';document.querySelectorAll('#causeChips .chip').forEach(c=>{c.classList.remove('active');c.style.background='';});apply();};
+
+/* ---- drawer ---- */
+const drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');
+function openDrawer(o){document.getElementById('dKicker').textContent=TC(o.grp);const fav=faviconOf(o.u);
+  document.getElementById('dName').innerHTML=`${fav?`<img src="${fav}" alt="" style="width:30px;height:30px;border-radius:6px;vertical-align:-5px;margin-right:11px;background:#fff;padding:2px;box-shadow:0 1px 4px rgba(0,0,0,.2)">`:''}${o.n}`;
+  const link=o.u?`<a class="d-link" href="${o.u}" target="_blank" rel="noopener">Visit website →</a>`:`<a class="d-link search" href="https://www.google.com/search?q=${encodeURIComponent(o.n+' effective giving')}" target="_blank" rel="noopener">Search the web →</a>`;
+  document.getElementById('dBody').innerHTML=`${o.flag?`<div class="d-flag"><b>⚠ Flagged:</b> ${o.flag}</div>`:''}${o.blurb?`<p style="font-size:.98rem;line-height:1.55;margin-bottom:6px">${o.blurb}</p>`:''}${o.fn?`<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:6px">${o.fn}</div>`:''}<div class="d-field"><div class="lab">GWWC primary type(s)</div><div class="val">${o.t.join(' · ')}</div></div><div class="d-field"><div class="lab">USD directed annually</div><div class="val">${o.usd}</div></div><div class="d-field"><div class="lab">Primary market(s)</div><div class="val">${o.mkt}</div></div><div class="d-field"><div class="lab">Cause area(s)</div><div class="val d-causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div></div><div class="d-field"><div class="lab">Year started</div><div class="val">${o.y}</div></div><div class="d-field"><div class="lab">Estimated FTE</div><div class="val">${o.fte}</div></div>${link}`;
+  drawer.classList.add('open');scrim.classList.add('open');}
+function closeDrawer(){drawer.classList.remove('open');scrim.classList.remove('open');}
+document.getElementById('drawerClose').onclick=closeDrawer;scrim.onclick=closeDrawer;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+/* ---- town interactions + tooltip ---- */
+const tip=document.getElementById('tooltip');
+pan.addEventListener('click',e=>{const t=e.target.closest('.town');if(t)openDrawer(byName[t.dataset.name]);});
+pan.addEventListener('mouseover',e=>{const t=e.target.closest('.town');if(t){const o=byName[t.dataset.name];tip.innerHTML=`<div class="tt-name">${o.n}</div>${o.fn?`<div class="tt-fn">${o.fn}</div>`:''}${o.blurb?`<div class="tt-body">${o.blurb}</div>`:''}${o.flag?`<div class="tt-flag">⚠ ${o.flag}</div>`:''}`;tip.style.opacity='1';t.classList.add('hl');}});
+pan.addEventListener('mousemove',e=>{if(tip.style.opacity==='1'){const w=tip.offsetWidth,x=Math.min(e.clientX+14,window.innerWidth-w-10);tip.style.left=x+'px';tip.style.top=Math.max(84,e.clientY-8)+'px';}});
+pan.addEventListener('mouseout',e=>{const t=e.target.closest('.town');if(t){tip.style.opacity='0';t.classList.remove('hl');}});
+
+/* ---- view toggle ---- */
+const mapWrap=document.getElementById('mapWrap'),btnMap=document.getElementById('btnMap'),btnGrid=document.getElementById('btnGrid');
+btnMap.onclick=()=>{btnMap.classList.add('active');btnGrid.classList.remove('active');mapWrap.style.display='block';gridView.style.display='none';};
+btnGrid.onclick=()=>{btnGrid.classList.add('active');btnMap.classList.remove('active');mapWrap.style.display='none';gridView.style.display='block';};
+document.getElementById('filterToggle').onclick=function(){const hidden=document.body.classList.toggle('filters-hidden');this.classList.toggle('on',!hidden);this.textContent=hidden?'Filters ▸':'Filters ▾';};
+
+/* ---- pan + zoom ---- */
+const svg=document.getElementById('map');let scale=1,tx=0,ty=0,drag=false,sx=0,sy=0;
+function tr(){pan.setAttribute('transform',`translate(${tx} ${ty}) scale(${scale})`);}
+function toUser(px,py){const r=svg.getBoundingClientRect();return[(px-r.left)*(1440/r.width),(py-r.top)*(900/r.height)];}
+svg.addEventListener('mousedown',e=>{drag=true;svg.classList.add('dragging');sx=e.clientX;sy=e.clientY;});
+window.addEventListener('mousemove',e=>{if(!drag)return;const r=svg.getBoundingClientRect();tx+=(e.clientX-sx)*(1440/r.width);ty+=(e.clientY-sy)*(900/r.height);sx=e.clientX;sy=e.clientY;tr();});
+window.addEventListener('mouseup',()=>{drag=false;svg.classList.remove('dragging');});
+svg.addEventListener('wheel',e=>{e.preventDefault();const[ux,uy]=toUser(e.clientX,e.clientY);const old=scale;scale=Math.min(3,Math.max(0.5,scale*(e.deltaY<0?1.12:0.89)));tx=ux-(ux-tx)*(scale/old);ty=uy-(uy-ty)*(scale/old);tr();},{passive:false});
+document.getElementById('zoomIn').onclick=()=>{scale=Math.min(3,scale*1.18);tr();};
+document.getElementById('zoomOut').onclick=()=>{scale=Math.max(0.4,scale*0.85);tr();};
+function fitToContent(){let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;ORGS.forEach(o=>{const p=pos[o.n];if(!p)return;if(p[0]<mnx)mnx=p[0];if(p[1]<mny)mny=p[1];if(p[0]>mxx)mxx=p[0];if(p[1]>mxy)mxy=p[1];});
+  mnx-=150;mxx+=150;mny-=105;mxy+=140; /* pad for coasts + labels (extra on top for pills) */
+  const bw=mxx-mnx,bh=mxy-mny;scale=Math.min(1440/bw,900/bh);scale=Math.max(0.4,Math.min(3,scale));
+  tx=(1440-bw*scale)/2-mnx*scale;ty=(900-bh*scale)/2-mny*scale;tr();}
+document.getElementById('zoomFit').onclick=fitToContent;
+apply();fitToContent();
+</script>
+</body>
+</html>
