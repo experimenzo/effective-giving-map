@@ -120,7 +120,14 @@ body.filters-hidden .stage{top:74px}
 .d-link.search{background:var(--cream);color:var(--navy);border:1px solid var(--border)}
 .footer-note{position:fixed;bottom:0;left:0;right:0;z-index:11;text-align:center;font-size:.68rem;color:var(--muted);padding:5px;pointer-events:none;font-style:italic}
 ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;border:2px solid var(--cream)}::-webkit-scrollbar-thumb:hover{background:var(--navy-light)}
-@media(max-width:760px){.brand-txt p{display:none}.search-wrap input{width:110px}.drawer{width:100%}}
+@media(max-width:760px){
+  .brand-txt p{display:none}.brand-txt h1{font-size:1.12rem}.vtag{display:none}
+  .topbar{gap:9px;padding:0 12px}.controls{gap:8px}
+  .search-wrap input{width:84px}.search-wrap input:focus{width:130px}
+  .ftbtn,.view-toggle button{padding:8px 11px;font-size:.88rem}
+  .filterbar{gap:12px;max-height:56vh;overflow-y:auto}
+  .drawer{width:100%}.hint{font-size:.68rem;left:10px;bottom:14px;padding:5px 9px}
+}
 </style>
 </head>
 <body>
@@ -178,26 +185,26 @@ ORGS.forEach(o=>groups[o.grp].push(o));
 
 /* ---- island geometry ---- */
 const ISLE={
- "Research & evaluators":{cx:320,cy:300,aspect:0.95,rot:0,seed:1.2,amp:.62},
- "Public platforms & pledges":{cx:670,cy:275,aspect:1.4,rot:16,seed:3.1,amp:.74},
- "Donor advisory":{cx:1010,cy:320,aspect:0.72,rot:-22,seed:4.6,amp:.7},
+ "Research & evaluators":{cx:320,cy:300,aspect:0.98,rot:0,seed:1.2,amp:.6},
+ "Public platforms & pledges":{cx:670,cy:275,aspect:1.06,rot:16,seed:3.1,amp:.72},
+ "Donor advisory":{cx:1010,cy:320,aspect:0.98,rot:-18,seed:4.6,amp:.7},
  "National giving portals":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
- "Grantmakers & pooled funds":{cx:920,cy:660,aspect:1.08,rot:10,seed:5.7,amp:.8},
- "Community & talent":{cx:1230,cy:600,aspect:0.85,rot:22,seed:7.3,amp:.66}
+ "Grantmakers & pooled funds":{cx:920,cy:660,aspect:1.04,rot:10,seed:5.7,amp:.72},
+ "Community & talent":{cx:1230,cy:600,aspect:0.95,rot:18,seed:7.3,amp:.64}
 };
+/* uniform marker size + packing => identical org spacing on every island (matches Research & Evaluators) */
 GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length;
-  I.mR=Math.max(15,Math.min(30,33-I.n*0.62));
-  if(!I.sub){const pR=1.12*I.mR*Math.sqrt(I.n);I.rx=pR;I.ry=pR*I.aspect;}});
-ISLE["National giving portals"].mR=20;
+  I.mR=I.sub?24:26;
+  if(!I.sub){const pR=1.3*I.mR*Math.sqrt(I.n);I.rx=pR;I.ry=pR*I.aspect;}});
 
 /* National sub-territory clusters (local offsets, tightened into a rough map) */
 /* offsets arranged like a world map: Europe top-centre, Americas/Pacific left, Asia bottom-right */
 const NAT={
- "Nordics":{dx:-15,dy:-140},
- "Western Europe":{dx:-55,dy:-15},
- "Central & Eastern Europe":{dx:160,dy:-45},
- "Anglosphere":{dx:-235,dy:40},
- "Asia & Latin America":{dx:135,dy:135}
+ "Nordics":{dx:-15,dy:-120},
+ "Western Europe":{dx:-45,dy:-10},
+ "Central & Eastern Europe":{dx:135,dy:-35},
+ "Anglosphere":{dx:-175,dy:35},
+ "Asia & Latin America":{dx:105,dy:115}
 };
 
 /* ---- shape + packing helpers ---- */
@@ -214,6 +221,16 @@ function hugPath(cx,cy,points,pad,seed,amp){const N=56,pts=[];
     let add=pad+lobe;if(add<pad*0.58)add=pad*0.58;pts.push([cx+(sup+add)*ct,cy+(sup+add)*st]);}
   return catmull(pts);}
 
+/* one connected coastline that hugs several clusters, dipping inward (concave) between them */
+function concaveHull(cx,cy,points,pad){const N=104,out=[];
+  const rel=points.map(p=>({a:Math.atan2(p[1]-cy,p[0]-cx),d:Math.hypot(p[0]-cx,p[1]-cy)}));
+  for(let k=0;k<N;k++){const th=k/N*2*Math.PI;let r=0;
+    for(let j=0;j<rel.length;j++){let ad=Math.abs(((rel[j].a-th+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI);
+      if(ad<1.3){const cand=rel[j].d*Math.cos(ad);if(cand>r)r=cand;}}
+    const wob=1+0.05*Math.sin(3*th+1.3)+0.03*Math.cos(5*th);
+    out.push([cx+(r*wob+pad)*Math.cos(th),cy+(r*wob+pad)*Math.sin(th)]);}
+  return catmull(out);}
+
 /* logo helpers */
 function domainOf(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}
 function faviconOf(u){const d=domainOf(u);return d?`https://www.google.com/s2/favicons?domain=${d}&sz=64`:'';}
@@ -225,7 +242,7 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];
   if(!I.sub){I.members.forEach((o,i)=>{pos[o.n]=phyllo(I.cx,I.cy,I.rx,I.ry,I.rot,i,I.n);});}
   else{ I.regions={};
     REGION_ORDER.forEach(rg=>{const mem=I.members.filter(o=>o.sub===rg);const off=NAT[rg];const nc=mem.length;
-      const cpR=1.12*I.mR*Math.sqrt(Math.max(nc,1));const ccx=I.cx+off.dx,ccy=I.cy+off.dy;
+      const cpR=1.3*I.mR*Math.sqrt(Math.max(nc,1));const ccx=I.cx+off.dx,ccy=I.cy+off.dy;
       mem.forEach((o,i)=>{pos[o.n]=phyllo(ccx,ccy,cpR,cpR,0,i,nc);});
       I.regions[rg]={ccx,ccy,cpR,n:nc,mem};});}
 });
@@ -242,18 +259,20 @@ const townEls={};let clipN=0;
 GROUP_ORDER.forEach(g=>{const I=ISLE[g];if(!I.n)return;const mR=I.mR;
   const tp=I.members.map(o=>pos[o.n]);
   let sx=0,sy=0,minY=1e9;tp.forEach(p=>{sx+=p[0];sy+=p[1];if(p[1]<minY)minY=p[1];});const cx=sx/tp.length,cy=sy/tp.length;
-  const coast=hugPath(cx,cy,tp,mR*1.3,I.seed,I.amp);
-  const beach=hugPath(cx,cy,tp,mR*0.85,I.seed+0.5,I.amp*0.9);
-  const cid='clip'+(clipN++);
   /* capital = largest org by size band */
   let cap=null,cr=-1;I.members.forEach(o=>{const r=SIZE_RANK(o.usd);if(r>cr){cr=r;cap=o.n;}});
-  /* sub-territory outlines + labels (hug each cluster) */
-  let inner='',rlabels='';
-  if(I.sub){REGION_ORDER.forEach(rg=>{const R=I.regions[rg];if(!R.n)return;const rtp=R.mem.map(o=>pos[o.n]);
-    let rmy=1e9;rtp.forEach(p=>{if(p[1]<rmy)rmy=p[1];});
-    inner+=`<path class="region-outline" d="${hugPath(R.ccx,R.ccy,rtp,mR*0.8,rg.length,0.45)}"/>`;
-    const lw=rg.length*7+16,lyr=rmy-mR-9;
-    rlabels+=`<g class="region-tag"><rect class="region-chip" x="${(R.ccx-lw/2).toFixed(1)}" y="${(lyr-13).toFixed(1)}" width="${lw.toFixed(1)}" height="19" rx="9"/><text class="region-label" x="${R.ccx.toFixed(1)}" y="${lyr.toFixed(1)}">${rg}</text></g>`;});}
+  /* land: sub islands hug each region tightly; other groups one island */
+  let land='',rlabels='';
+  if(I.sub){ /* ONE connected island, concave hug around all clusters + dotted region borders */
+    const coast=concaveHull(cx,cy,tp,mR*1.2),beach=concaveHull(cx,cy,tp,mR*0.55),cid='clip'+(clipN++);
+    land=`<clipPath id="${cid}"><path d="${coast}"/></clipPath><path class="coast" d="${coast}"/><rect class="land-tex" x="-600" y="-500" width="3400" height="2400" clip-path="url(#${cid})"/><path class="coast-inner" d="${beach}"/>`;
+    REGION_ORDER.forEach(rg=>{const R=I.regions[rg];if(!R.n)return;const rtp=R.mem.map(o=>pos[o.n]);
+      let rcx=0,rcy=0,rmy=1e9;rtp.forEach(p=>{rcx+=p[0];rcy+=p[1];if(p[1]<rmy)rmy=p[1];});rcx/=rtp.length;rcy/=rtp.length;
+      land+=`<path class="region-outline" d="${hugPath(rcx,rcy,rtp,mR*0.7,rg.length,0.4)}"/>`;
+      const lw=rg.length*7+16,lyr=rmy-mR-9;
+      rlabels+=`<g class="region-tag"><rect class="region-chip" x="${(rcx-lw/2).toFixed(1)}" y="${(lyr-13).toFixed(1)}" width="${lw.toFixed(1)}" height="19" rx="9"/><text class="region-label" x="${rcx.toFixed(1)}" y="${lyr.toFixed(1)}">${rg}</text></g>`;});}
+  else{const coast=hugPath(cx,cy,tp,mR*1.15,I.seed,I.amp),beach=hugPath(cx,cy,tp,mR*0.8,I.seed+0.5,I.amp*0.9),cid='clip'+(clipN++);
+    land=`<clipPath id="${cid}"><path d="${coast}"/></clipPath><path class="coast" d="${coast}"/><rect class="land-tex" x="-600" y="-500" width="3400" height="2400" clip-path="url(#${cid})"/><path class="coast-inner" d="${beach}"/>`;}
   /* towns */
   let towns='';I.members.forEach(o=>{const[x,y]=pos[o.n];const col=cssVal(CAUSE_COLORS[o.c[0]]||CAUSE_COLORS['Other(s)']);const fav=faviconOf(o.u);
     const pin=fav
@@ -265,7 +284,7 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];if(!I.n)return;const mR=I.mR;
   /* island label pill (above topmost town) */
   const label=TC(g),cw=label.length*9.3+30,ly=minY-mR*1.3-(I.sub?48:30);
   const pill=`<rect class="isle-pill" x="${(cx-cw/2).toFixed(1)}" y="${(ly-20).toFixed(1)}" width="${cw.toFixed(1)}" height="42" rx="21"/><text class="isle-label" x="${cx.toFixed(1)}" y="${(ly+2).toFixed(1)}" font-size="19">${label}</text><text class="isle-count" x="${cx.toFixed(1)}" y="${(ly+16).toFixed(1)}" font-size="11">${I.n} organisations</text>`;
-  pan.insertAdjacentHTML('beforeend',`<g class="isle" data-grp="${g}"><clipPath id="${cid}"><path d="${coast}"/></clipPath><path class="coast" d="${coast}"/><rect class="land-tex" x="-600" y="-500" width="3400" height="2400" clip-path="url(#${cid})"/><path class="coast-inner" d="${beach}"/>${inner}${towns}${rlabels}${pill}</g>`);
+  pan.insertAdjacentHTML('beforeend',`<g class="isle" data-grp="${g}">${land}${towns}${rlabels}${pill}</g>`);
 });
 document.querySelectorAll('.town').forEach(el=>townEls[el.dataset.name]=el);
 
@@ -310,7 +329,10 @@ pan.addEventListener('mouseout',e=>{const t=e.target.closest('.town');if(t){tip.
 const mapWrap=document.getElementById('mapWrap'),btnMap=document.getElementById('btnMap'),btnGrid=document.getElementById('btnGrid');
 btnMap.onclick=()=>{btnMap.classList.add('active');btnGrid.classList.remove('active');mapWrap.style.display='block';gridView.style.display='none';};
 btnGrid.onclick=()=>{btnGrid.classList.add('active');btnMap.classList.remove('active');mapWrap.style.display='none';gridView.style.display='block';};
-document.getElementById('filterToggle').onclick=function(){const hidden=document.body.classList.toggle('filters-hidden');this.classList.toggle('on',!hidden);this.textContent=hidden?'Filters ▸':'Filters ▾';};
+const filterToggle=document.getElementById('filterToggle');
+filterToggle.onclick=function(){const hidden=document.body.classList.toggle('filters-hidden');this.classList.toggle('on',!hidden);this.textContent=hidden?'Filters ▸':'Filters ▾';};
+/* start collapsed on phones so the crowded filter bar doesn't cover the map */
+if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches){document.body.classList.add('filters-hidden');filterToggle.classList.remove('on');filterToggle.textContent='Filters ▸';}
 
 /* ---- pan + zoom ---- */
 const svg=document.getElementById('map');let scale=1,tx=0,ty=0,drag=false,sx=0,sy=0;
@@ -320,6 +342,16 @@ svg.addEventListener('mousedown',e=>{drag=true;svg.classList.add('dragging');sx=
 window.addEventListener('mousemove',e=>{if(!drag)return;const r=svg.getBoundingClientRect();tx+=(e.clientX-sx)*(1440/r.width);ty+=(e.clientY-sy)*(900/r.height);sx=e.clientX;sy=e.clientY;tr();});
 window.addEventListener('mouseup',()=>{drag=false;svg.classList.remove('dragging');});
 svg.addEventListener('wheel',e=>{e.preventDefault();const[ux,uy]=toUser(e.clientX,e.clientY);const old=scale;scale=Math.min(3,Math.max(0.5,scale*(e.deltaY<0?1.12:0.89)));tx=ux-(ux-tx)*(scale/old);ty=uy-(uy-ty)*(scale/old);tr();},{passive:false});
+/* touch: 1-finger pan, 2-finger pinch-zoom, tap to open */
+let tPan=false,tMoved=false,tsx=0,tsy=0,pDist=0,pMid=null;
+const tDist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+const tMid=t=>({x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2});
+svg.addEventListener('touchstart',e=>{if(e.touches.length===1){tPan=true;tMoved=false;tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;}else if(e.touches.length===2){tPan=false;pDist=tDist(e.touches);pMid=tMid(e.touches);}},{passive:false});
+svg.addEventListener('touchmove',e=>{e.preventDefault();const r=svg.getBoundingClientRect();
+  if(e.touches.length===1&&tPan){const t=e.touches[0],dx=t.clientX-tsx,dy=t.clientY-tsy;if(Math.abs(dx)+Math.abs(dy)>4)tMoved=true;tx+=dx*(1440/r.width);ty+=dy*(900/r.height);tsx=t.clientX;tsy=t.clientY;tr();}
+  else if(e.touches.length===2){const d=tDist(e.touches),m=tMid(e.touches),[ux,uy]=toUser(m.x,m.y),old=scale;scale=Math.min(3,Math.max(0.35,scale*(d/pDist)));tx=ux-(ux-tx)*(scale/old)+(m.x-pMid.x)*(1440/r.width);ty=uy-(uy-ty)*(scale/old)+(m.y-pMid.y)*(900/r.height);pDist=d;pMid=m;tr();}},{passive:false});
+svg.addEventListener('touchend',e=>{if(!tMoved&&e.changedTouches.length){const ct=e.changedTouches[0],el=document.elementFromPoint(ct.clientX,ct.clientY),town=el&&el.closest&&el.closest('.town');if(town&&byName[town.dataset.name])openDrawer(byName[town.dataset.name]);}
+  if(e.touches.length===0)tPan=false;else if(e.touches.length===1){tPan=true;tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;}},{passive:false});
 document.getElementById('zoomIn').onclick=()=>{scale=Math.min(3,scale*1.18);tr();};
 document.getElementById('zoomOut').onclick=()=>{scale=Math.max(0.4,scale*0.85);tr();};
 function fitToContent(){let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;ORGS.forEach(o=>{const p=pos[o.n];if(!p)return;if(p[0]<mnx)mnx=p[0];if(p[1]<mny)mny=p[1];if(p[0]>mxx)mxx=p[0];if(p[1]>mxy)mxy=p[1];});
