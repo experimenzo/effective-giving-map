@@ -213,7 +213,7 @@ const ISLE={
  "Charity evaluator":{cx:320,cy:300,aspect:0.98,rot:0,seed:1.2,amp:.6},
  "Broad fundraising":{cx:670,cy:275,aspect:1.06,rot:16,seed:3.1,amp:.72},
  "Philanthropy advisory":{cx:1010,cy:320,aspect:0.98,rot:-18,seed:4.6,amp:.7},
- "National fundraising":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
+ "National fundraising":{cx:470,cy:680,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
  "Grantmakers & pooled funds":{cx:900,cy:675,aspect:1.04,rot:10,seed:5.7,amp:.72},
  "Talent & careers":{cx:1300,cy:440,aspect:0.96,rot:-10,seed:8.1,amp:.6},
  "Niche fundraising":{cx:1240,cy:735,aspect:1.0,rot:15,seed:9.4,amp:.66}
@@ -226,7 +226,7 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length
 /* National sub-territory clusters (local offsets, tightened into a rough map) */
 /* offsets arranged like a world map: Europe top-centre, Americas/Pacific left, Asia bottom-right */
 const NAT={
- "Nordics":{dx:-30,dy:-170},
+ "Nordics":{dx:-30,dy:-100},
  "Western Europe":{dx:-30,dy:-10},
  "Central & Eastern Europe":{dx:130,dy:-40},
  "Anglosphere":{dx:-182,dy:10},
@@ -317,7 +317,7 @@ document.querySelectorAll('.town').forEach(el=>townEls[el.dataset.name]=el);
 
 /* ---- GRID ---- */
 const gridView=document.getElementById('gridView');const cardIndex={};
-gridView.insertAdjacentHTML('beforeend','<div class="grid-note">The map shows each organisation once, under its <b>primary</b> category. This grid also lists an organisation under any <b>secondary</b> category it verifiably performs — shown separately and marked <b>“Primary: …”</b>.</div>');
+gridView.insertAdjacentHTML('beforeend','<div class="grid-note">Some orgs also appear under other categories they fit — marked <b>“Primary: …”</b>.</div>');
 function cardBody(o,isSecondary){
   return `<div class="nm">${o.n}${o.flag?' <span style="color:#B0553C">⚠</span>':''}</div>${isSecondary?`<div class="sec-tag">Primary: ${TC(o.grp)}</div>`:(o.fn?`<div class="fn">${o.fn}</div>`:'')}${o.blurb?`<div class="bd">${o.blurb}</div>`:''}<div class="row">${o.mkt} · est. ${o.y} · ${o.fte} FTE</div><div class="row"><b>${o.usd}</b> directed / yr</div><div class="causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div>`;
 }
