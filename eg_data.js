@@ -1,9 +1,23 @@
 /* ============================================================
    Effective Giving Landscape — shared data
-   81 organisations (72 from GWWC "Active EG organisations"
-   table + 9 board-only orgs researched separately).
-   Loaded by both eg_map_v1_archipelago.html and
-   eg_map_v2_pangea.html.
+   77 organisations (from GWWC's "Active EG organisations" Notion
+   database plus separately-researched additions). Loaded by
+   index.html (The Effective Giving Islands).
+
+   GROUPS holds each org's PRIMARY category — a relabelling of
+   GWWC's own 8 "Primary type(s)" tags into functional groups
+   (Charity evaluator / National fundraising / Broad fundraising /
+   Philanthropy advisory / Niche fundraising are GWWC's original
+   names, kept verbatim; "Grantmakers & pooled funds" merges
+   GWWC's "Grantmaking foundation" + "Pooled fund"; "Talent &
+   careers" is a new group for orgs that route people, not money).
+
+   SECONDARY holds each org's additional categories, applied
+   uniformly: any org gets a secondary entry for a function it
+   verifiably and prominently performs beyond its primary one —
+   either because GWWC itself dual-tagged it, or because its own
+   site describes a named, distinct programme (e.g. an expert-
+   directed pooled fund, not just a themed donation bucket).
    ============================================================ */
 
 const CAUSE_COLORS={
@@ -32,7 +46,7 @@ const ORGS=[
  {n:"Center on Long-Term Risk",u:"https://longtermrisk.org/grantmaking/",t:["Pooled fund"],usd:"<$1M",mkt:"Global",c:["AI risks"],y:2013,fte:"11-20"},
  {n:"Centre for Exploratory Altruism Research",u:"https://exploratory-altruism.org/",t:["Philanthropy advisory","Pooled fund"],usd:"<$1M",mkt:"Asia",c:["Humans","Animals","X-risk"],y:2022,fte:"1-5"},
  {n:"Charity Navigator",u:"https://www.charitynavigator.org/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"US",c:["Humans","Animals","Climate"],y:2001,fte:"21-50"},
- {n:"CharityBox",u:"https://www.charitybox.cn/",t:["National fundraising","Charity evaluator"],usd:"<$1M",mkt:"China",c:["Humans"],y:2021,fte:"1-5"},
+ {n:"CharityBox",u:"https://www.linkedin.com/company/the-charity-box",t:["National fundraising","Charity evaluator"],usd:"<$1M",mkt:"China",c:["Humans"],y:2021,fte:"1-5"},
  {n:"Coefficient Giving",u:"https://coefficientgiving.org/",t:["Grantmaking foundation","Philanthropy advisory"],usd:">$500M",mkt:"Global",c:["Humans","Animals","X-risk","Other(s)","AI risks","Pandemics"],y:2011,fte:"51-100"},
  {n:"doebem",u:"https://doebem.org.br/",t:["National fundraising","Charity evaluator"],usd:"<$1M",mkt:"Brazil",c:["Humans"],y:2017,fte:"1-5"},
  {n:"Doneer Effectief",u:"https://doneereffectief.nl/",t:["National fundraising"],usd:"$1M—$10M",mkt:"Netherlands",c:["Humans","Animals","Climate"],y:2022,fte:"1-5"},
@@ -44,7 +58,7 @@ const ORGS=[
  {n:"Effective Giving Ireland",u:"https://effectivegiving.ie/",t:["National fundraising"],usd:"<$1M",mkt:"Ireland",c:["Humans","Animals","Climate"],y:2024,fte:"<1"},
  {n:"Effective Institutions Project",u:"https://effectiveinstitutionsproject.org/",t:["Philanthropy advisory"],usd:"$10M—$50M",mkt:"US/UK (global)",c:["Other(s)","AI risks","Democracy"],y:2021,fte:"1-5"},
  {n:"Effektiv Spenden",u:"https://effektiv-spenden.org/",t:["National fundraising","Philanthropy advisory"],usd:"$10M—$50M",mkt:"Germany, Switzerland, Austria",c:["Humans","Animals","X-risk","Climate"],y:2019,fte:"6-10"},
- {n:"Elevate Philanthropy",u:"https://www.elevatephilanthropy.org/",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"Global",c:["Multiple"],y:2026,fte:"1-5"},
+ {n:"Elevate Philanthropy",u:"https://elevatephilanthropy.com/",t:["Philanthropy advisory"],usd:"Not disclosed",mkt:"Global",c:["Multiple"],y:2026,fte:"1-5"},
  {n:"Ellis Impact",u:"https://www.ellisimpact.org/",t:["Philanthropy advisory"],usd:"<$1M",mkt:"US",c:["Humans","Animals","Climate"],y:2024,fte:"1-5"},
  {n:"Etkili Bağış",u:"https://etkilibagis.org/",t:["National fundraising"],usd:"<$1M",mkt:"Turkey",c:["Humans"],y:2025,fte:"1-5"},
  {n:"FarmKind",u:"https://farmkind.giving/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"US/UK (global)",c:["Animals"],y:2024,fte:"1-5"},
@@ -69,7 +83,6 @@ const ORGS=[
  {n:"Manifund",u:"https://manifund.org/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"n/a",c:["Humans","Animals","X-risk"],y:2023,fte:"1-5"},
  {n:"Maximum Impact",u:"https://www.maximpact.org.il/",t:["National fundraising","Charity evaluator"],usd:"<$1M",mkt:"Israel",c:["Humans","Animals","X-risk"],y:2023,fte:"1-5"},
  {n:"Mieux Donner",u:"https://www.mieuxdonner.org/",t:["National fundraising"],usd:"<$1M",mkt:"France, Switzerland",c:["Humans","Animals","Climate"],y:2024,fte:"1-5"},
- {n:"Momentum",u:"https://www.givemomentum.com/",t:["Other"],usd:"N/A",mkt:"US",c:["Other(s)"],y:2018,fte:"11-20"},
  {n:"Navigation Fund",u:"https://www.navigation.org/",t:["Grantmaking foundation"],usd:"$10M—$50M",mkt:"Global",c:["Animals","X-risk","Climate","Other(s)"],y:2023,fte:"6-10"},
  {n:"One for the World",u:"https://www.1fortheworld.org/",t:["Broad fundraising"],usd:"$1M—$10M",mkt:"College/MBA students, US/UK",c:["Humans"],y:2014,fte:"1-5"},
  {n:"Pepper",u:"https://joinpepper.org/",t:["Broad fundraising"],usd:"<$1M",mkt:"United States",c:["Humans"],y:2023,fte:"<1"},
@@ -88,8 +101,7 @@ const ORGS=[
  {n:"Więcej Dobra",u:"https://wiecejdobra.pl/",t:["National fundraising"],usd:"<$1M",mkt:"Poland",c:["Humans","Animals","Climate"],y:2023,fte:"1-5"},
  {n:"Ziedo Efektīvi",u:"https://ziedoefektivi.lv/",t:["National fundraising"],usd:"<$1M",mkt:"Latvia",c:["Humans","Animals","Climate"],y:2024,fte:"1-5"},
  {n:"Efektif Berbagi",u:"https://efektifberbagi.id/",t:["National fundraising"],usd:"<$1M",mkt:"Indonesia",c:["Humans"],y:2026,fte:"6-10"},
- /* --- 9 board-only orgs, researched separately (attributes lower-confidence) --- */
- {n:"Afterfund",u:"https://afterfund.co/",t:["Niche fundraising"],usd:"<$1M",mkt:"US",c:["Humans"],y:2023,fte:"1-5"},
+ /* --- board-only orgs, researched separately (attributes lower-confidence) --- */
  {n:"Alpha Epsilon",u:"https://alphaepsilon.org/",t:["Grantmaking foundation"],usd:"Not disclosed",mkt:"Global",c:["Other(s)"],y:"—",fte:"—"},
  {n:"Animal Advocacy Careers",u:"https://www.animaladvocacycareers.org/",t:["Niche fundraising"],usd:"Not disclosed",mkt:"Global",c:["Animals"],y:2019,fte:"6-10"},
  {n:"Consultants for Impact",u:"https://www.consultantsforimpact.org/",t:["Niche fundraising"],usd:"N/A",mkt:"Global",c:["Humans","Animals","Climate","X-risk","AI risks","Pandemics","Nuclear"],y:2019,fte:"1-5"},
@@ -99,21 +111,46 @@ const ORGS=[
  {n:"Renaissance Philanthropy",u:"https://renaissancephilanthropy.org/",t:["Philanthropy advisory","Pooled fund"],usd:"$100M—$500M",mkt:"US",c:["Other(s)"],y:2024,fte:"51-100"}
 ];
 
-/* ---- revised functional classification (6 groups) ---- */
-const GROUP_ORDER=["Research & evaluators","National giving portals","Public platforms & pledges","Donor advisory","Grantmakers & pooled funds","Talent & careers","Communities & outreach"];
+/* ---- functional classification (GWWC's own type names, kept verbatim where possible) ---- */
+const GROUP_ORDER=["Charity evaluator","National fundraising","Broad fundraising","Philanthropy advisory","Grantmakers & pooled funds","Talent & careers","Niche fundraising"];
 const REGION_ORDER=["Nordics","Western Europe","Central & Eastern Europe","Anglosphere","Asia & Latin America"];
-const FLAGGED={
- "Momentum":"A nonprofit fundraising CRM/AI tool — not itself an effective-giving org.",
- "Afterfund":"Nonprofit endowment/fundraising tech — supplies infrastructure, doesn't route donors to effective charities."
-};
+const FLAGGED={};
 const GROUPS={
- "GiveWell":"Research & evaluators","Animal Charity Evaluators":"Research & evaluators","Giving Green":"Research & evaluators","Happier Lives Institute":"Research & evaluators","The Life You Can Save":"Research & evaluators","Better Futures Guide":"Research & evaluators","Centre for Exploratory Altruism Research":"Research & evaluators","Power for Democracies":"Research & evaluators","Charity Navigator":"Research & evaluators",
- "Ge Effektivt":"National giving portals","Gi Effektivt":"National giving portals","Giv Effektivt":"National giving portals","Lahjoittaminen":"National giving portals","Ayuda Efectiva":"National giving portals","Benefficienza":"National giving portals","Doneer Effectief":"National giving portals","Effectief Geven":"National giving portals","Effektiv Spenden":"National giving portals","Mieux Donner":"National giving portals","Effective Giving Ireland":"National giving portals","Więcej Dobra":"National giving portals","Anneta Targalt":"National giving portals","Ziedo Efektīvi":"National giving portals","Etkili Bağış":"National giving portals","Effective Altruism Australia":"National giving portals","Effective Altruism New Zealand":"National giving portals","RC Forward":"National giving portals","doebem":"National giving portals","CharityBox":"National giving portals","GiveWise":"National giving portals","Impactful Giving":"National giving portals","Maximum Impact":"National giving portals","Efektif Berbagi":"National giving portals",
- "Giving What We Can":"Public platforms & pledges","One for the World":"Public platforms & pledges","Giving Multiplier":"Public platforms & pledges","Double Up Drive":"Public platforms & pledges","GoodWallet":"Public platforms & pledges","Pepper":"Public platforms & pledges","FarmKind":"Public platforms & pledges","Manifund":"Public platforms & pledges","Momentum":"Public platforms & pledges","Afterfund":"Public platforms & pledges",
- "Ark Philanthropy":"Donor advisory","Bedrock Philanthropy":"Donor advisory","Ellis Impact":"Donor advisory","Ultra Philanthropy":"Donor advisory","Serica":"Donor advisory","Longview Philanthropy":"Donor advisory","Founders Pledge":"Donor advisory","Raising Impact":"Donor advisory","Regeneration Group":"Donor advisory","Elevate Philanthropy":"Donor advisory","Effective Institutions Project":"Donor advisory","Senterra Funders":"Donor advisory",
+ "GiveWell":"Charity evaluator","Animal Charity Evaluators":"Charity evaluator","Giving Green":"Charity evaluator","Happier Lives Institute":"Charity evaluator","The Life You Can Save":"Charity evaluator","Better Futures Guide":"Charity evaluator","Centre for Exploratory Altruism Research":"Charity evaluator","Power for Democracies":"Charity evaluator","Charity Navigator":"Charity evaluator",
+ "Ge Effektivt":"National fundraising","Gi Effektivt":"National fundraising","Giv Effektivt":"National fundraising","Lahjoittaminen":"National fundraising","Ayuda Efectiva":"National fundraising","Benefficienza":"National fundraising","Doneer Effectief":"National fundraising","Effectief Geven":"National fundraising","Effektiv Spenden":"National fundraising","Mieux Donner":"National fundraising","Effective Giving Ireland":"National fundraising","Więcej Dobra":"National fundraising","Anneta Targalt":"National fundraising","Ziedo Efektīvi":"National fundraising","Etkili Bağış":"National fundraising","Effective Altruism Australia":"National fundraising","Effective Altruism New Zealand":"National fundraising","RC Forward":"National fundraising","doebem":"National fundraising","CharityBox":"National fundraising","GiveWise":"National fundraising","Impactful Giving":"National fundraising","Maximum Impact":"National fundraising","Efektif Berbagi":"National fundraising",
+ "Giving What We Can":"Broad fundraising","One for the World":"Broad fundraising","Giving Multiplier":"Broad fundraising","Double Up Drive":"Broad fundraising","GoodWallet":"Broad fundraising","Pepper":"Broad fundraising","FarmKind":"Broad fundraising","Manifund":"Broad fundraising",
+ "Ark Philanthropy":"Philanthropy advisory","Bedrock Philanthropy":"Philanthropy advisory","Ellis Impact":"Philanthropy advisory","Ultra Philanthropy":"Philanthropy advisory","Serica":"Philanthropy advisory","Longview Philanthropy":"Philanthropy advisory","Founders Pledge":"Philanthropy advisory","Raising Impact":"Philanthropy advisory","Regeneration Group":"Philanthropy advisory","Elevate Philanthropy":"Philanthropy advisory","Effective Institutions Project":"Philanthropy advisory","Senterra Funders":"Philanthropy advisory",
  "Coefficient Giving":"Grantmakers & pooled funds","Effective Altruism Funds":"Grantmakers & pooled funds","Survival and Flourishing Fund":"Grantmakers & pooled funds","Navigation Fund":"Grantmakers & pooled funds","Future of Life Institute":"Grantmakers & pooled funds","Macroscopic Ventures":"Grantmakers & pooled funds","AI Risk Mitigation Fund":"Grantmakers & pooled funds","Center on Long-Term Risk":"Grantmakers & pooled funds","Bloom Wellbeing Fund":"Grantmakers & pooled funds","Sentinel Bio":"Grantmakers & pooled funds","Astralis Foundation":"Grantmakers & pooled funds","AI Safety Tactical Opportunities Fund":"Grantmakers & pooled funds","Alpha Epsilon":"Grantmakers & pooled funds","Renaissance Philanthropy":"Grantmakers & pooled funds","Livelihood Impact Fund":"Grantmakers & pooled funds",
  "Ambitious Impact":"Talent & careers","Animal Advocacy Careers":"Talent & careers","High Impact Professionals":"Talent & careers","Consultants for Impact":"Talent & careers",
- "EA for Christians":"Communities & outreach","Jewish Effective Giving Initiative":"Communities & outreach","Raise":"Communities & outreach","High-Impact Athletes":"Communities & outreach","Tien Procent Club":"Communities & outreach"
+ "EA for Christians":"Niche fundraising","Jewish Effective Giving Initiative":"Niche fundraising","Raise":"Niche fundraising","High-Impact Athletes":"Niche fundraising","Tien Procent Club":"Niche fundraising"
+};
+
+/* Secondary categories — every function an org verifiably & prominently
+   performs beyond its primary group. Bucket A (most orgs here): derived
+   directly from GWWC's own dual "Primary type(s)" tags. Bucket B: a named,
+   distinct programme documented on the org's own site (an expert-directed
+   fund/regrantor, not just a themed donation bucket) — Founders Pledge's
+   pledge community + thematic Funds, Giving Green's Fund, Manifund's
+   regranting, GiveWell's Giving Funds, CEARCH's own grantmaking. */
+const SECONDARY={
+ "AI Safety Tactical Opportunities Fund":["Philanthropy advisory"],
+ "Animal Charity Evaluators":["Grantmakers & pooled funds"],
+ "Bloom Wellbeing Fund":["Philanthropy advisory"],
+ "CharityBox":["Charity evaluator"],
+ "Centre for Exploratory Altruism Research":["Philanthropy advisory","Grantmakers & pooled funds"],
+ "Coefficient Giving":["Philanthropy advisory"],
+ "doebem":["Charity evaluator"],
+ "Effektiv Spenden":["Philanthropy advisory"],
+ "Founders Pledge":["Charity evaluator","Grantmakers & pooled funds","Niche fundraising"],
+ "Gi Effektivt":["Philanthropy advisory"],
+ "GiveWell":["Philanthropy advisory","Grantmakers & pooled funds"],
+ "Giving Green":["Grantmakers & pooled funds"],
+ "Longview Philanthropy":["Grantmakers & pooled funds"],
+ "Manifund":["Grantmakers & pooled funds"],
+ "Maximum Impact":["Charity evaluator"],
+ "Renaissance Philanthropy":["Philanthropy advisory"],
+ "Sentinel Bio":["Philanthropy advisory"],
+ "The Life You Can Save":["Broad fundraising"]
 };
 const SUBTERR={
  "Ge Effektivt":"Nordics","Gi Effektivt":"Nordics","Giv Effektivt":"Nordics","Lahjoittaminen":"Nordics",
@@ -132,5 +169,6 @@ const LOGO_OVERRIDE={
  "Giv Effektivt":"https://giveffektivt.dk/favicon.ico",
  "Lahjoittaminen":"https://lahjoittaminen.fi/content/images/2021/12/logo2-5.png",
  "Raising Impact":"https://raisingimpact.org/og-image.jpg",
- "Efektif Berbagi":"https://efektifberbagi.id/favicon.svg"
+ "Efektif Berbagi":"https://efektifberbagi.id/favicon.svg",
+ "CharityBox":"charitybox-logo.jpg"
 };

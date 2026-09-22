@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Effective Giving Islands</title>
-<meta name="description" content="An interactive map of 79 organisations that direct money to high-impact charities, grouped by what they actually do with a donor's money.">
+<meta name="description" content="An interactive map of 77 organisations that direct money to high-impact charities, grouped by what they actually do with a donor's money.">
 <link rel="icon" type="image/png" href="favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Effective Giving Islands">
-<meta property="og:description" content="79 organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
+<meta property="og:description" content="Organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
 <meta property="og:image" content="https://experimenzo.github.io/effective-giving-map/og-image.png">
 <meta property="og:url" content="https://experimenzo.github.io/effective-giving-map/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Effective Giving Islands">
-<meta name="twitter:description" content="79 organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
+<meta name="twitter:description" content="Organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
 <meta name="twitter:image" content="https://experimenzo.github.io/effective-giving-map/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -83,6 +83,7 @@ body.filters-open .filterbar{display:flex}
 .isle-count{font-family:'Source Serif 4',serif;fill:var(--gold-light);text-anchor:middle;font-style:italic}
 .boat{opacity:.5;pointer-events:none}
 .capital{pointer-events:none}
+.secbadge{pointer-events:none}
 .town{cursor:pointer}
 .town circle.pin{transition:filter .15s}
 .town image{pointer-events:none;clip-path:circle(48%)}
@@ -103,7 +104,10 @@ body.filters-open .filterbar{display:flex}
 .tooltip .tt-fn{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold-light);margin-top:3px}
 .tooltip .tt-body{font-size:.82rem;line-height:1.42;color:rgba(255,255,255,.86);margin-top:7px}
 .tooltip .tt-flag{font-size:.78rem;line-height:1.4;color:#F5C77E;margin-top:7px;font-style:italic}
+.tooltip .tt-sec{font-size:.72rem;color:var(--gold-light);margin-top:3px;font-style:italic}
 #gridView{position:absolute;inset:0;overflow-y:auto;padding:26px 30px 60px;display:none;background:var(--ivory)}
+.grid-note{max-width:760px;font-size:.86rem;line-height:1.5;color:var(--muted);background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:28px}
+.grid-note b{color:var(--navy);font-weight:600}
 .grid-section{margin-bottom:34px}
 .grid-section h2{font-size:1.5rem;color:var(--navy);font-weight:600;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid var(--gold);display:inline-block}
 .grid-section h2 .n{font-size:.9rem;color:var(--muted);font-family:'Source Serif 4',serif;font-weight:400;margin-left:8px}
@@ -112,6 +116,9 @@ body.filters-open .filterbar{display:flex}
 .card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,89,76,.18)}
 .card .nm{font-family:'Cormorant Garamond',serif;font-size:1.32rem;font-weight:600;line-height:1.1;margin-bottom:6px}
 .card .fn{font-size:.72rem;text-transform:uppercase;letter-spacing:.7px;color:var(--gold);margin-bottom:9px}
+.card .sec-tag{font-size:.72rem;font-style:italic;color:var(--muted);margin-bottom:9px}
+.card-secondary{border-left-style:dashed;opacity:.9}
+.sec-subhead{font-size:.76rem;color:var(--muted);font-style:italic;margin:14px 0 10px;padding-top:12px;border-top:1px dashed var(--border)}
 .card .bd{font-size:.86rem;line-height:1.45;color:var(--muted);margin-bottom:10px}
 .card .row{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);margin-top:4px}
 .card .row b{color:var(--charcoal);font-weight:500}
@@ -151,7 +158,7 @@ body.filters-open .filterbar{display:flex}
 <body>
 <div class="topbar">
   <div class="brand"><div class="seal">EG</div>
-    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>79 organisations, mapped by what they do with a donor's money</p></div>
+    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>77 organisations, mapped by what they do with a donor's money</p></div>
     <span class="vtag">v1 · Islands</span>
   </div>
   <div class="controls">
@@ -178,12 +185,12 @@ body.filters-open .filterbar{display:flex}
 <div class="tooltip" id="tooltip"></div>
 <div class="drawer-scrim" id="scrim"></div>
 <aside class="drawer" id="drawer"><div class="drawer-head"><button class="drawer-close" id="drawerClose">&times;</button><div class="kicker" id="dKicker"></div><h2 id="dName"></h2></div><div class="drawer-body" id="dBody"></div></aside>
-<div class="footer-note">The Effective Giving Islands · built in the Effective Wills visual system</div>
+<div class="footer-note">The Effective Giving Islands · built in the Effective Wills visual system · Last updated 23 Sep 2026 · <a href="mailto:LorenzoPonceHK@gmail.com?subject=Effective%20Giving%20Map%20%E2%80%94%20suggestion" style="pointer-events:auto;color:var(--gold)">Suggest an org / report an error</a></div>
 <script src="eg_data.js"></script>
 <script src="eg_blurbs.js"></script>
 <script>
 if(window.BLURBS)ORGS.forEach(o=>{const b=BLURBS[o.n];if(b){o.blurb=b.blurb;o.fn=b.fn;}});
-ORGS.forEach(o=>{o.grp=GROUPS[o.n]||"Community & talent";o.sub=SUBTERR[o.n];o.flag=FLAGGED[o.n];});
+ORGS.forEach(o=>{o.grp=GROUPS[o.n];o.sub=SUBTERR[o.n];o.flag=FLAGGED[o.n];o.sec=SECONDARY[o.n]||[];});
 const state={search:"",causes:new Set(),grp:"",size:""};
 const cssVal=v=>getComputedStyle(document.documentElement).getPropertyValue(v.replace('var(','').replace(')','').trim())||'#999';
 const SIZE_RANK=n=>SIZE_ORDER.indexOf(n);
@@ -203,13 +210,13 @@ ORGS.forEach(o=>groups[o.grp].push(o));
 
 /* ---- island geometry ---- */
 const ISLE={
- "Research & evaluators":{cx:320,cy:300,aspect:0.98,rot:0,seed:1.2,amp:.6},
- "Public platforms & pledges":{cx:670,cy:275,aspect:1.06,rot:16,seed:3.1,amp:.72},
- "Donor advisory":{cx:1010,cy:320,aspect:0.98,rot:-18,seed:4.6,amp:.7},
- "National giving portals":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
+ "Charity evaluator":{cx:320,cy:300,aspect:0.98,rot:0,seed:1.2,amp:.6},
+ "Broad fundraising":{cx:670,cy:275,aspect:1.06,rot:16,seed:3.1,amp:.72},
+ "Philanthropy advisory":{cx:1010,cy:320,aspect:0.98,rot:-18,seed:4.6,amp:.7},
+ "National fundraising":{cx:470,cy:650,aspect:1,rot:0,seed:2.0,amp:.5,sub:true},
  "Grantmakers & pooled funds":{cx:900,cy:675,aspect:1.04,rot:10,seed:5.7,amp:.72},
  "Talent & careers":{cx:1300,cy:440,aspect:0.96,rot:-10,seed:8.1,amp:.6},
- "Communities & outreach":{cx:1240,cy:735,aspect:1.0,rot:15,seed:9.4,amp:.66}
+ "Niche fundraising":{cx:1240,cy:735,aspect:1.0,rot:15,seed:9.4,amp:.66}
 };
 /* uniform marker size + packing => identical org spacing on every island (matches Research & Evaluators) */
 GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length;
@@ -299,7 +306,8 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];if(!I.n)return;const mR=I.mR;
       : `<circle class="pin" r="${mR.toFixed(1)}" fill="${col}" stroke="#fff" stroke-width="2"/><text class="mono" text-anchor="middle" dy="${(mR*0.32).toFixed(1)}" fill="#fff" font-size="${Math.round(mR*0.82)}" font-family="Cormorant Garamond,serif" font-weight="600">${monogram(o.n)}</text>`;
     const star=(o.n===cap)?`<path class="capital" d="M0 ${(-mR-11).toFixed(1)} l3.1 6.3 6.9 1 -5 4.9 1.2 6.9 -6.2 -3.3 -6.2 3.3 1.2 -6.9 -5 -4.9 6.9 -1 Z" fill="#E8840C" stroke="#fff" stroke-width=".6"/>`:'';
     const flag=o.flag?`<g class="flagbadge" transform="translate(${(mR*0.62).toFixed(1)},${(-mR*0.62).toFixed(1)})"><circle r="6.5" fill="#B0553C" stroke="#fff" stroke-width="1.2"/><text text-anchor="middle" dy="3.3" font-size="9" fill="#fff" font-family="serif" font-weight="700">!</text></g>`:'';
-    towns+=`<g class="town" data-name="${o.n.replace(/"/g,'&quot;')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})">${star}${pin}${flag}</g>`;});
+    const secBadge=(o.sec&&o.sec.length)?`<g class="secbadge" transform="translate(${(-mR*0.62).toFixed(1)},${(-mR*0.62).toFixed(1)})"><circle r="7" fill="#E8840C" stroke="#fff" stroke-width="1.2"/><text text-anchor="middle" dy="3" font-size="8.5" fill="#fff" font-family="Cormorant Garamond,serif" font-weight="700">+${o.sec.length}</text></g>`:'';
+    towns+=`<g class="town" data-name="${o.n.replace(/"/g,'&quot;')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})">${star}${pin}${flag}${secBadge}</g>`;});
   /* island label pill (above topmost town) */
   const label=TC(g),cw=label.length*9.3+30,ly=minY-mR*1.3-(I.sub?48:30);
   const pill=`<rect class="isle-pill" x="${(cx-cw/2).toFixed(1)}" y="${(ly-20).toFixed(1)}" width="${cw.toFixed(1)}" height="42" rx="21"/><text class="isle-label" x="${cx.toFixed(1)}" y="${(ly+2).toFixed(1)}" font-size="19">${label}</text><text class="isle-count" x="${cx.toFixed(1)}" y="${(ly+16).toFixed(1)}" font-size="11">${I.n} organisations</text>`;
@@ -309,17 +317,36 @@ document.querySelectorAll('.town').forEach(el=>townEls[el.dataset.name]=el);
 
 /* ---- GRID ---- */
 const gridView=document.getElementById('gridView');const cardIndex={};
-GROUP_ORDER.forEach(g=>{if(!groups[g].length)return;const sec=document.createElement('div');sec.className='grid-section';sec.dataset.grp=g;
-  sec.innerHTML=`<h2>${TC(g)}<span class="n">${groups[g].length}</span></h2>`;const cg=document.createElement('div');cg.className='card-grid';
-  groups[g].forEach(o=>{const card=document.createElement('div');card.className='card';card.dataset.name=o.n;
-    card.innerHTML=`<div class="nm">${o.n}${o.flag?' <span style="color:#B0553C">⚠</span>':''}</div>${o.fn?`<div class="fn">${o.fn}</div>`:''}${o.blurb?`<div class="bd">${o.blurb}</div>`:''}<div class="row">${o.mkt} · est. ${o.y} · ${o.fte} FTE</div><div class="row"><b>${o.usd}</b> directed / yr</div><div class="causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div>`;
-    card.onclick=()=>openDrawer(o);cg.appendChild(card);cardIndex[o.n]=card;});
-  sec.appendChild(cg);gridView.appendChild(sec);});
+gridView.insertAdjacentHTML('beforeend','<div class="grid-note">The map shows each organisation once, under its <b>primary</b> category. This grid also lists an organisation under any <b>secondary</b> category it verifiably performs — shown separately and marked <b>“Primary: …”</b>.</div>');
+function cardBody(o,isSecondary){
+  return `<div class="nm">${o.n}${o.flag?' <span style="color:#B0553C">⚠</span>':''}</div>${isSecondary?`<div class="sec-tag">Primary: ${TC(o.grp)}</div>`:(o.fn?`<div class="fn">${o.fn}</div>`:'')}${o.blurb?`<div class="bd">${o.blurb}</div>`:''}<div class="row">${o.mkt} · est. ${o.y} · ${o.fte} FTE</div><div class="row"><b>${o.usd}</b> directed / yr</div><div class="causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div>`;
+}
+function addCard(container,o,isSecondary){
+  const card=document.createElement('div');card.className='card'+(isSecondary?' card-secondary':'');card.dataset.name=o.n;
+  card.innerHTML=cardBody(o,isSecondary);card.onclick=()=>openDrawer(o);container.appendChild(card);
+  (cardIndex[o.n]=cardIndex[o.n]||[]).push(card);
+}
+GROUP_ORDER.forEach(g=>{
+  const primary=groups[g],secondary=ORGS.filter(o=>o.sec.includes(g));
+  if(!primary.length&&!secondary.length)return;
+  const sec=document.createElement('div');sec.className='grid-section';sec.dataset.grp=g;
+  sec.innerHTML=`<h2>${TC(g)}<span class="n">${primary.length}</span></h2>`;
+  const cg=document.createElement('div');cg.className='card-grid';
+  primary.forEach(o=>addCard(cg,o,false));
+  sec.appendChild(cg);
+  if(secondary.length){
+    const sh=document.createElement('div');sh.className='sec-subhead';sh.textContent=`Also relevant here — ${secondary.length} more`;sec.appendChild(sh);
+    const cg2=document.createElement('div');cg2.className='card-grid';
+    secondary.forEach(o=>addCard(cg2,o,true));
+    sec.appendChild(cg2);
+  }
+  gridView.appendChild(sec);
+});
 
 /* ---- filter ---- */
 const byName={};ORGS.forEach(o=>byName[o.n]=o);
-function matches(o){if(state.search&&!o.n.toLowerCase().includes(state.search))return false;if(state.grp&&o.grp!==state.grp)return false;if(state.size&&o.usd!==state.size)return false;if(state.causes.size&&![...state.causes].some(c=>o.c.includes(c)))return false;return true;}
-function apply(){let vis=0;ORGS.forEach(o=>{const ok=matches(o);if(ok)vis++;if(townEls[o.n])townEls[o.n].classList.toggle('dim',!ok);if(cardIndex[o.n])cardIndex[o.n].classList.toggle('hidden',!ok);});
+function matches(o){if(state.search&&!o.n.toLowerCase().includes(state.search))return false;if(state.grp&&o.grp!==state.grp&&!o.sec.includes(state.grp))return false;if(state.size&&o.usd!==state.size)return false;if(state.causes.size&&![...state.causes].some(c=>o.c.includes(c)))return false;return true;}
+function apply(){let vis=0;ORGS.forEach(o=>{const ok=matches(o);if(ok)vis++;if(townEls[o.n])townEls[o.n].classList.toggle('dim',!ok);(cardIndex[o.n]||[]).forEach(el=>el.classList.toggle('hidden',!ok));});
   document.querySelectorAll('.isle').forEach(is=>{const any=[...is.querySelectorAll('.town')].some(n=>!n.classList.contains('dim'));is.classList.toggle('dim',!any);});
   document.querySelectorAll('.grid-section').forEach(sec=>{const any=[...sec.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));sec.style.display=any?'':'none';});
   document.getElementById('countPill').textContent=`${vis} of ${ORGS.length} shown`;}
@@ -340,7 +367,7 @@ const drawer=document.getElementById('drawer'),scrim=document.getElementById('sc
 function openDrawer(o){document.getElementById('dKicker').textContent=TC(o.grp);const fav=faviconOf(o.u,o.n);
   document.getElementById('dName').innerHTML=`${fav?`<img src="${fav}" alt="" style="width:30px;height:30px;border-radius:6px;vertical-align:-5px;margin-right:11px;background:#fff;padding:2px;box-shadow:0 1px 4px rgba(0,0,0,.2)">`:''}${o.n}`;
   const link=o.u?`<a class="d-link" href="${o.u}" target="_blank" rel="noopener">Visit website →</a>`:`<a class="d-link search" href="https://www.google.com/search?q=${encodeURIComponent(o.n+' effective giving')}" target="_blank" rel="noopener">Search the web →</a>`;
-  document.getElementById('dBody').innerHTML=`${o.flag?`<div class="d-flag"><b>⚠ Flagged:</b> ${o.flag}</div>`:''}${o.blurb?`<p style="font-size:.98rem;line-height:1.55;margin-bottom:6px">${o.blurb}</p>`:''}${o.fn?`<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:6px">${o.fn}</div>`:''}<div class="d-field"><div class="lab">GWWC primary type(s)</div><div class="val">${o.t.join(' · ')}</div></div><div class="d-field"><div class="lab">USD directed annually</div><div class="val">${o.usd}</div></div><div class="d-field"><div class="lab">Primary market(s)</div><div class="val">${o.mkt}</div></div><div class="d-field"><div class="lab">Cause area(s)</div><div class="val d-causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div></div><div class="d-field"><div class="lab">Year started</div><div class="val">${o.y}</div></div><div class="d-field"><div class="lab">Estimated FTE</div><div class="val">${o.fte}</div></div>${link}`;
+  document.getElementById('dBody').innerHTML=`${o.flag?`<div class="d-flag"><b>⚠ Flagged:</b> ${o.flag}</div>`:''}${o.blurb?`<p style="font-size:.98rem;line-height:1.55;margin-bottom:6px">${o.blurb}</p>`:''}${o.fn?`<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:6px">${o.fn}</div>`:''}${o.sec&&o.sec.length?`<div class="d-field"><div class="lab">Also functions as</div><div class="val">${o.sec.map(TC).join(' · ')}</div></div>`:''}<div class="d-field"><div class="lab">GWWC primary type(s)</div><div class="val">${o.t.join(' · ')}</div></div><div class="d-field"><div class="lab">USD directed annually</div><div class="val">${o.usd}</div></div><div class="d-field"><div class="lab">Primary market(s)</div><div class="val">${o.mkt}</div></div><div class="d-field"><div class="lab">Cause area(s)</div><div class="val d-causes">${o.c.map(c=>`<span class="cause-tag" style="background:${CAUSE_COLORS[c]||CAUSE_COLORS['Other(s)']}">${c}</span>`).join('')}</div></div><div class="d-field"><div class="lab">Year started</div><div class="val">${o.y}</div></div><div class="d-field"><div class="lab">Estimated FTE</div><div class="val">${o.fte}</div></div>${link}`;
   drawer.classList.add('open');scrim.classList.add('open');}
 function closeDrawer(){drawer.classList.remove('open');scrim.classList.remove('open');}
 document.getElementById('drawerClose').onclick=closeDrawer;scrim.onclick=closeDrawer;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
@@ -348,7 +375,7 @@ document.getElementById('drawerClose').onclick=closeDrawer;scrim.onclick=closeDr
 /* ---- town interactions + tooltip ---- */
 const tip=document.getElementById('tooltip');
 pan.addEventListener('click',e=>{const t=e.target.closest('.town');if(t)openDrawer(byName[t.dataset.name]);});
-pan.addEventListener('mouseover',e=>{const t=e.target.closest('.town');if(t){const o=byName[t.dataset.name];tip.innerHTML=`<div class="tt-name">${o.n}</div>${o.fn?`<div class="tt-fn">${o.fn}</div>`:''}${o.blurb?`<div class="tt-body">${o.blurb}</div>`:''}${o.flag?`<div class="tt-flag">⚠ ${o.flag}</div>`:''}`;tip.style.opacity='1';t.classList.add('hl');}});
+pan.addEventListener('mouseover',e=>{const t=e.target.closest('.town');if(t){const o=byName[t.dataset.name];tip.innerHTML=`<div class="tt-name">${o.n}</div>${o.fn?`<div class="tt-fn">${o.fn}</div>`:''}${o.sec&&o.sec.length?`<div class="tt-sec">Also: ${o.sec.map(TC).join(', ')}</div>`:''}${o.blurb?`<div class="tt-body">${o.blurb}</div>`:''}${o.flag?`<div class="tt-flag">⚠ ${o.flag}</div>`:''}`;tip.style.opacity='1';t.classList.add('hl');}});
 pan.addEventListener('mousemove',e=>{if(tip.style.opacity==='1'){const w=tip.offsetWidth,x=Math.min(e.clientX+14,window.innerWidth-w-10);tip.style.left=x+'px';tip.style.top=Math.max(84,e.clientY-8)+'px';}});
 pan.addEventListener('mouseout',e=>{const t=e.target.closest('.town');if(t){tip.style.opacity='0';t.classList.remove('hl');}});
 
