@@ -193,7 +193,8 @@ if(window.BLURBS)ORGS.forEach(o=>{const b=BLURBS[o.n];if(b){o.blurb=b.blurb;o.fn
 ORGS.forEach(o=>{o.grp=GROUPS[o.n];o.sub=SUBTERR[o.n];o.flag=FLAGGED[o.n];o.sec=SECONDARY[o.n]||[];});
 const state={search:"",causes:new Set(),grp:"",size:""};
 const cssVal=v=>getComputedStyle(document.documentElement).getPropertyValue(v.replace('var(','').replace(')','').trim())||'#999';
-const SIZE_RANK=n=>SIZE_ORDER.indexOf(n);
+const KNOWN_SIZES=["<$1M","$1M—$10M","$10M—$50M","$50M—$100M","$100M—$500M",">$500M"];
+const SIZE_RANK=n=>KNOWN_SIZES.indexOf(n); /* "Not disclosed"/"N/A" -> -1, never outranks a known size band */
 const TC=s=>s.replace(/\b([a-z])/g,(m,c)=>c.toUpperCase()); /* Title Case for display labels (keeps data keys intact) */
 
 /* ---- filters UI ---- */
@@ -221,12 +222,12 @@ const ISLE={
 /* uniform marker size + packing => identical org spacing on every island (matches Research & Evaluators) */
 GROUP_ORDER.forEach(g=>{const I=ISLE[g];I.members=groups[g];I.n=I.members.length;
   I.mR=I.sub?24:26;
-  if(!I.sub){const pR=1.3*I.mR*Math.sqrt(I.n);I.rx=pR;I.ry=pR*I.aspect;}});
+  if(!I.sub){const pR=1.4*I.mR*Math.sqrt(I.n);I.rx=pR;I.ry=pR*I.aspect;}});
 
 /* National sub-territory clusters (local offsets, tightened into a rough map) */
 /* offsets arranged like a world map: Europe top-centre, Americas/Pacific left, Asia bottom-right */
 const NAT={
- "Nordics":{dx:-30,dy:-100},
+ "Nordics":{dx:-30,dy:-165},
  "Western Europe":{dx:-30,dy:-10},
  "Central & Eastern Europe":{dx:130,dy:-40},
  "Anglosphere":{dx:-182,dy:10},
@@ -268,7 +269,7 @@ GROUP_ORDER.forEach(g=>{const I=ISLE[g];
   if(!I.sub){I.members.forEach((o,i)=>{pos[o.n]=phyllo(I.cx,I.cy,I.rx,I.ry,I.rot,i,I.n);});}
   else{ I.regions={};
     REGION_ORDER.forEach(rg=>{const mem=I.members.filter(o=>o.sub===rg);const off=NAT[rg];const nc=mem.length;
-      const cpR=1.3*I.mR*Math.sqrt(Math.max(nc,1));const ccx=I.cx+off.dx,ccy=I.cy+off.dy;
+      const cpR=1.4*I.mR*Math.sqrt(Math.max(nc,1));const ccx=I.cx+off.dx,ccy=I.cy+off.dy;
       mem.forEach((o,i)=>{pos[o.n]=phyllo(ccx,ccy,cpR,cpR,0,i,nc);});
       I.regions[rg]={ccx,ccy,cpR,n:nc,mem};});}
 });
