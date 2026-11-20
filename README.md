@@ -1,6 +1,6 @@
 # The Effective Giving Islands
 
-An interactive map of the effective-giving landscape — 77 organisations that help direct
+An interactive map of the effective-giving landscape — 85 organisations that help direct
 money to high-impact charities, grouped by what they actually do with a donor's money.
 
 Modelled on [aisafety.com/map](https://aisafety.com/map). Built as a single static page
@@ -12,12 +12,12 @@ Modelled on [aisafety.com/map](https://aisafety.com/map). Built as a single stat
 - **`eg_blurbs.js`** — one-paragraph summaries per organisation.
 
 ## Groups
-Charity evaluator · National fundraising (sub-divided by region) · Broad fundraising · Philanthropy advisory · Grantmakers & pooled funds · Talent & careers · Niche fundraising.
+Charity evaluator · National fundraising (sub-divided by region) · Broad fundraising · Philanthropy advisory · Grantmakers & pooled funds · Talent, careers & communities · Niche fundraising.
 
 Five of these names are Giving What We Can's own "Primary type(s)" labels, kept verbatim.
 "Grantmakers & pooled funds" merges their "Grantmaking foundation" and "Pooled fund" tags;
-"Talent & careers" is this map's addition, for organisations that route people into
-high-impact work rather than money into high-impact charities.
+"Talent, careers & communities" is this map's addition, for organisations that route people into
+high-impact work (careers networks, GWWC pledge partners) rather than money into high-impact charities.
 
 ## Primary vs. secondary categories
 The **Map** shows every organisation once, under its **primary** category, decided by
