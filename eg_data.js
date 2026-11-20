@@ -2,7 +2,7 @@
    Effective Giving Landscape — shared data
    85 organisations (from GWWC's "Active EG organisations" Notion
    database plus separately-researched additions). Loaded by
-   index.html (The Effective Giving Islands).
+   index.html (The Effective Giving Map).
 
    GROUPS holds each org's PRIMARY category — a relabelling of
    GWWC's own 8 "Primary type(s)" tags into functional groups
@@ -91,7 +91,7 @@ const ORGS=[
  {n:"Serica",u:"https://www.sericaadvisory.org/",t:["Philanthropy advisory"],usd:"<$1M",mkt:"Asia, Africa",c:["Humans"],y:2025,fte:"1-5"},
  {n:"Survival and Flourishing Fund",u:"https://survivalandflourishing.fund/",t:["Grantmaking foundation"],usd:"$50M—$100M",mkt:"Global",c:["X-risk","AI risks","Pandemics","Animals","Climate"],y:2019,fte:"6-10"},
  {n:"The Life You Can Save",u:"https://www.thelifeyoucansave.org/",t:["Broad fundraising","Charity evaluator"],usd:"$10M—$50M",mkt:"US",c:["Humans"],y:2013,fte:"11-20"},
- {n:"Tien Procent Club",u:"https://tienprocent.club/",t:["National fundraising"],usd:"<$1M",mkt:"Netherlands",c:["Humans","Other(s)"],y:2022,fte:"1-5"},
+ {n:"De Geefrevolutie",u:"https://www.geefrevolutie.nl/",t:["National fundraising"],usd:"<$1M",mkt:"Netherlands",c:["Humans","Other(s)"],y:2022,fte:"1-5"},
  {n:"Ultra Philanthropy",u:"https://www.ultraphilanthropy.org/",t:["Philanthropy advisory"],usd:"$1M—$10M",mkt:"US, UK (major donors)",c:["Humans","Animals","Other(s)"],y:2024,fte:"1-5"},
  {n:"Więcej Dobra",u:"https://wiecejdobra.pl/",t:["National fundraising"],usd:"<$1M",mkt:"Poland",c:["Humans","Animals","Climate"],y:2023,fte:"1-5"},
  {n:"Ziedo Efektīvi",u:"https://ziedoefektivi.lv/",t:["National fundraising"],usd:"<$1M",mkt:"Latvia",c:["Humans","Animals","X-risk"],y:2024,fte:"1-5"},
@@ -143,7 +143,7 @@ const GROUPS={
  "Ark Philanthropy":"Philanthropy advisory","Bedrock Philanthropy":"Philanthropy advisory","Ultra Philanthropy":"Philanthropy advisory","Serica":"Philanthropy advisory","Longview Philanthropy":"Philanthropy advisory","Founders Pledge":"Philanthropy advisory","Raising Impact":"Philanthropy advisory","Regeneration Group":"Philanthropy advisory","Elevate Philanthropy":"Philanthropy advisory","Effective Institutions Project":"Philanthropy advisory","Senterra Funders":"Philanthropy advisory",
  "Coefficient Giving":"Grantmakers & pooled funds","Effective Altruism Funds":"Grantmakers & pooled funds","Survival and Flourishing Fund":"Grantmakers & pooled funds","Navigation Fund":"Grantmakers & pooled funds","Future of Life Institute":"Grantmakers & pooled funds","Macroscopic Ventures":"Grantmakers & pooled funds","AI Risk Mitigation Fund":"Grantmakers & pooled funds","Center on Long-Term Risk":"Grantmakers & pooled funds","Sentinel Bio":"Grantmakers & pooled funds","Astralis Foundation":"Grantmakers & pooled funds","AI Safety Tactical Opportunities Fund":"Grantmakers & pooled funds","Alpha Epsilon":"Grantmakers & pooled funds","Renaissance Philanthropy":"Grantmakers & pooled funds","Livelihood Impact Fund":"Grantmakers & pooled funds",
  "Ambitious Impact":"Talent, careers & communities","Animal Advocacy Careers":"Talent, careers & communities","High Impact Professionals":"Talent, careers & communities","Consultants for Impact":"Talent, careers & communities",
- "EA for Christians":"Niche fundraising","Raise":"Niche fundraising","High-Impact Athletes":"Niche fundraising","Tien Procent Club":"Niche fundraising"
+ "EA for Christians":"Niche fundraising","Raise":"Niche fundraising","High-Impact Athletes":"Niche fundraising","De Geefrevolutie":"Niche fundraising"
 };
 
 /* Secondary categories — every function an org verifiably & prominently

@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Effective Giving Islands</title>
+<title>The Effective Giving Map</title>
 <meta name="description" content="An interactive map of 85 organisations that direct money to high-impact charities, grouped by what they actually do with a donor's money.">
 <link rel="icon" type="image/png" href="favicon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Effective Giving Islands">
+<meta property="og:title" content="The Effective Giving Map">
 <meta property="og:description" content="Organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
 <meta property="og:image" content="https://experimenzo.github.io/effective-giving-map/og-image.png">
 <meta property="og:url" content="https://experimenzo.github.io/effective-giving-map/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Effective Giving Islands">
+<meta name="twitter:title" content="The Effective Giving Map">
 <meta name="twitter:description" content="Organisations that direct money to high-impact charities — mapped by what they actually do with a donor's money.">
 <meta name="twitter:image" content="https://experimenzo.github.io/effective-giving-map/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif}
 .seal{width:44px;height:44px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:#fff}
 .brand-txt h1{font-size:1.5rem;font-weight:600;line-height:1}
 .brand-txt p{font-size:.72rem;color:rgba(255,255,255,.62);font-style:italic;margin-top:3px}
-.vtag{font-family:'Cormorant Garamond',serif;font-size:.9rem;background:var(--gold);color:var(--navy-deep);padding:2px 12px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .controls{display:flex;align-items:center;gap:14px;margin-left:auto}
 .search-wrap{position:relative}
 .search-wrap input{font-family:inherit;font-size:.9rem;width:210px;padding:9px 14px 9px 34px;border:1px solid rgba(255,255,255,.25);border-radius:22px;background:rgba(255,255,255,.08);color:#fff;outline:none;transition:.2s}
@@ -67,7 +66,7 @@ body.filters-open .filterbar{display:flex}
 .chip.active{color:#fff;border-color:transparent;font-weight:500}
 .sel-select{font-family:inherit;font-size:.62rem;padding:4px 8px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--charcoal);cursor:pointer}
 .reset-btn{font-family:inherit;font-size:.62rem;color:var(--gold);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.count-pill{font-size:.62rem;color:var(--muted);font-style:italic}
+.count-pill{font-size:.62rem;color:var(--muted)}
 .stage{position:fixed;top:74px;left:0;right:0;bottom:0;overflow:hidden}
 #mapWrap{position:absolute;inset:0}
 #map{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
@@ -80,7 +79,7 @@ body.filters-open .filterbar{display:flex}
 .region-label{font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;fill:var(--navy);text-anchor:middle;font-size:14px}
 .isle-pill{fill:var(--navy);opacity:.92}
 .isle-label{font-family:'Cormorant Garamond',serif;font-weight:600;fill:#fff;text-anchor:middle;letter-spacing:.5px}
-.isle-count{font-family:'Source Serif 4',serif;fill:var(--gold-light);text-anchor:middle;font-style:italic}
+.isle-count{font-family:'Source Serif 4',serif;fill:var(--gold-light);text-anchor:middle}
 .boat{opacity:.5;pointer-events:none}
 .secbadge{pointer-events:none}
 .town{cursor:pointer}
@@ -145,7 +144,7 @@ body.filters-open .filterbar{display:flex}
 .footer-note{position:fixed;bottom:0;left:0;right:0;z-index:11;text-align:center;font-size:.68rem;color:var(--muted);padding:5px;pointer-events:none;font-style:italic}
 ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;border:2px solid var(--cream)}::-webkit-scrollbar-thumb:hover{background:var(--navy-light)}
 @media(max-width:760px){
-  .brand-txt p{display:none}.brand-txt h1{font-size:1.12rem}.vtag{display:none}
+  .brand-txt p{display:none}.brand-txt h1{font-size:1.12rem}
   .topbar{gap:9px;padding:0 12px}.controls{gap:8px}
   .search-wrap input{width:84px}.search-wrap input:focus{width:130px}
   .ftbtn,.view-toggle button{padding:8px 11px;font-size:.88rem}
@@ -157,8 +156,7 @@ body.filters-open .filterbar{display:flex}
 <body>
 <div class="topbar">
   <div class="brand"><div class="seal">EG</div>
-    <div class="brand-txt"><h1>The Effective Giving Islands</h1><p>85 organisations, mapped by what they do with a donor's money</p></div>
-    <span class="vtag">v1 · Islands</span>
+    <div class="brand-txt"><h1>The Effective Giving Map</h1><p>85 organisations, mapped by what they do with a donor's money</p></div>
   </div>
   <div class="controls">
     <div class="search-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="search" type="text" placeholder="Search organisations…" autocomplete="off"><div class="search-results" id="searchResults"></div></div>
@@ -184,7 +182,7 @@ body.filters-open .filterbar{display:flex}
 <div class="tooltip" id="tooltip"></div>
 <div class="drawer-scrim" id="scrim"></div>
 <aside class="drawer" id="drawer"><div class="drawer-head"><button class="drawer-close" id="drawerClose">&times;</button><div class="kicker" id="dKicker"></div><h2 id="dName"></h2></div><div class="drawer-body" id="dBody"></div></aside>
-<div class="footer-note">The Effective Giving Islands · built in the Effective Legacy visual system · Last updated 20 Nov 2026 · <a href="mailto:LorenzoPonceHK@gmail.com?subject=Effective%20Giving%20Map%20%E2%80%94%20suggestion" style="pointer-events:auto;color:var(--gold)">Suggest an org / report an error</a></div>
+<div class="footer-note">The Effective Giving Map · built in the Effective Legacy visual system · Last updated 20 Nov 2026 · <a href="mailto:LorenzoPonceHK@gmail.com?subject=Effective%20Giving%20Map%20%E2%80%94%20suggestion" style="pointer-events:auto;color:var(--gold)">Suggest an org / report an error</a></div>
 <script src="eg_data.js"></script>
 <script src="eg_blurbs.js"></script>
 <script>
