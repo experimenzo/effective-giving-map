@@ -191,5 +191,6 @@ const LOGO_OVERRIDE={
  
  "Raising Impact":"https://raisingimpact.org/og-image.jpg",
  "Efektif Berbagi":"https://efektifberbagi.id/favicon.svg",
- "CharityBox":"charitybox-logo.jpg"
+ "CharityBox":"charitybox-logo.jpg",
+ "Original Position":"original-position-logo.png"
 };
